@@ -22,6 +22,10 @@
       width: 100%;
     }
   }
+
+  .carousel-status {
+    display: none;
+  }
   
   /* categories */
   .categories {
@@ -297,8 +301,9 @@
   }
   .blog_event .list .item {
     width: 400px;
-    text-align: left !important;
+    text-align: center !important;
   }
+ 
   .blog_event .list .item .img {
     width: 100%;
   }

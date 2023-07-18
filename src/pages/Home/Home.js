@@ -1,11 +1,12 @@
 import "./Home.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
-import { categories } from "../../data";
+import { categories, blogEvents } from "../../data";
 import Item from "../../components/Item";
 import Slider from "../../components/Slider";
 import BannerSale from "../../components/BannerSale";
 import PopularProducts from "../../components/PopularProducts";
+import BlogItem from "../../components/BlogItem";
 function Home() {
   const breakpoints = {
     700: {
@@ -85,27 +86,19 @@ function Home() {
           <PopularProducts />
           <div className="blog_event box_content">
             <div className="head">
-              <h3 className="title">Latest Products</h3>
+              <h3 className="title">Blog & Events</h3>
               <div className="view_more">
-                View all products <i className="fa-solid fa-arrow-right"></i>
+                View all Events <i className="fa-solid fa-arrow-right"></i>
               </div>
             </div>
             <div className="list">
-              <Carousel  showThumbs={false} breakpoints="breakpointsev" wrap-around="true">
-                {/* <Slide v-for="item in blog_event"> */}
-                <div className="item">
-                  <div className="img">
-                    <img src="images/blog_1.jpg" alt="" />
-                  </div>
-                  <div className="content">
-                    <div className="date">
-                      <i className="fa-solid fa-calendar-days"></i>
-                      <span>September 06, 2022</span>
-                    </div>
-                    <p>Lorem ipsum dolor sit adipis</p>
-                  </div>
-                </div>
-                {/* </Slide> */}
+              <Carousel
+                showThumbs={false}
+                breakpoints={breakpointsev}
+                wrap-around={true}
+                className="mt-5"
+              >
+                <BlogItem />
               </Carousel>
             </div>
           </div>

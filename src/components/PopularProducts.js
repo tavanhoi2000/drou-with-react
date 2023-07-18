@@ -1,35 +1,38 @@
+import { popularProducts } from "../data";
+
 function PopularProducts() {
-    return(
-        <div className="popular_product box_content">
-            <div className="head">
-              <h3 className="title">Popular Products</h3>
-              <div className="categories">
-                <ul>
-                  <li>Accessories</li>
-                  <li>iPhone</li>
-                  <li>Laptop</li>
-                </ul>
+  return (
+    <div className="popular_product box_content">
+      <div className="head">
+        <h3 className="title">Popular Products</h3>
+        <div className="categories">
+          <ul>
+            <li>Accessories</li>
+            <li>iPhone</li>
+            <li>Laptop</li>
+          </ul>
+        </div>
+      </div>
+      <div className="list">
+        {popularProducts.map((item, index) => (
+          <div className="item" key={index}>
+            <div className="img">
+              <div className="show">
+                <img src={item.img} alt="" />
+              </div>
+              <div className="hide">
+                <img src={item.subImg} alt="" />
               </div>
             </div>
-            <div className="list">
-              <div className="item" v-for="item in latest_product">
-                <div className="img">
-                  <div className="show">
-                    <img src="images/product_1.jpg" alt="" />
-                  </div>
-                  <div className="hide">
-                    <img src="images/sub_product_1.jpg" alt="" />
-                  </div>
-                </div>
-                <div className="content">
-                  <span className="name">AirPods Pro white</span>
-                  <h4 className="price">$80.00 USD</h4>
-                </div>
-              </div>
+            <div className="content">
+              <span className="name">{item.name}</span>
+              <h4 className="price">${item.price}.00 USD</h4>
             </div>
           </div>
-    )
+        ))}
+      </div>
+    </div>
+  );
 }
 
-
-export default PopularProducts
+export default PopularProducts;
