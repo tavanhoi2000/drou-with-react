@@ -1,23 +1,23 @@
 import "./Home.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
-import { categories, blogEvents } from "../../data";
-import Item from "../../components/Item";
-import Slider from "../../components/Slider";
-import BannerSale from "../../components/BannerSale";
-import PopularProducts from "../../components/PopularProducts";
-import BlogItem from "../../components/BlogItem";
+import { categories } from "../../../data";
+import Item from "../../../components/Item";
+import Slider from "../../../components/Slider";
+import BannerSale from "../../../components/BannerSale";
+import PopularProducts from "../../../components/PopularProducts";
+import BlogItem from "../../../components/BlogItem";
 function Home() {
-  const breakpoints = {
-    700: {
-      itemsToShow: 3,
-      snapAlign: "center",
-    },
-    1024: {
-      itemsToShow: 5,
-      snapAlign: "start",
-    },
-  };
+  // const breakpoints = {
+  //   700: {
+  //     itemsToShow: 3,
+  //     snapAlign: "center",
+  //   },
+  //   1024: {
+  //     itemsToShow: 5,
+  //     snapAlign: "start",
+  //   },
+  // };
   const breakpointsev = {
     700: {
       itemsToShow: 2,
@@ -35,14 +35,14 @@ function Home() {
       <div className="container">
         <div className="categories box_content">
           <h3>Trending Categories</h3>
-          <Carousel showThumbs={false} style={{ height: 190 }}>
+          <div className="d-flex justify-content-around">
             {categories.map((item, index) => (
               <div className="item" key={index}>
                 <img src={item.img} alt="" /> <br />
                 <span>{item.name}</span>
               </div>
             ))}
-          </Carousel>
+          </div>
         </div>
 
         <div className="featured_product box_content">

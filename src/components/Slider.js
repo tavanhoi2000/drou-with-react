@@ -18,7 +18,7 @@ function Slider() {
         modules={[Navigation, Pagination, EffectFade]}
         effect="fade"
         navigation
-        autoplay
+        autoPlay
         pagination={{ clickable: true }}
         loop="true"
         className="mySwiper"

@@ -1,0 +1,6 @@
+.row>* {
+    flex-shrink: unset;
+}
+ul {
+    padding: 0;
+}

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import './Header.scss'
 function Header() {
   return (
@@ -19,11 +20,11 @@ function Header() {
             <li> USD </li> |
             <ul>
               <li>
-                <a href="">Log In</a>
+                <Link to="/account/login">Log In</Link>
               </li>{" "}
               /
               <li>
-                <a href="">Sign Up</a>
+                <Link to="/account/register">Sign Up</Link>
               </li>
             </ul>
           </ul>
@@ -38,13 +39,13 @@ function Header() {
           <div className="nav__menu-pages">
             <ul>
               <li>
-                <a href="/">home</a>
+                <Link to="/">home</Link>
               </li>
               <li>
-                <a href="/">shop</a>
+                <Link to="/shop">shop</Link>
               </li>
               <li>
-                <a href="/">contact</a>
+                <Link to="/contact">contact</Link>
               </li>
             </ul>
           </div>

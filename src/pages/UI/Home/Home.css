@@ -37,10 +37,23 @@
   .categories h3 {
     margin: 60px 0px 50px 0px;
   }
+  .categories .slider {
+    display: flex;
+  }
   .categories .item {
     padding: 30px 0px;
     border: 1px solid #f8f8f8;
+    width: 170px;
+    box-shadow: rgba(0, 0, 0, .14) 0 1px 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
+  .categories .item:hover img {
+    transform: scale(1.2);
+    transition: all .5s ease-in;
+  }
+  
   .categories img {
     width: 75%;
   }
@@ -301,14 +314,24 @@
   }
   .blog_event .list .item {
     width: 400px;
+    height: auto !important;
     text-align: center !important;
   }
  
   .blog_event .list .item .img {
     width: 100%;
+    overflow: hidden;
+    cursor: pointer;
   }
   .blog_event .list .item .img img {
     width: 100%;
+    
+  }
+  .blog_event .list .item:hover .img img {
+    transform: scale(1.2);
+    transition: all 1s ease-in-out;
+    
+    
   }
   .blog_event .date {
     font-size: 14px;

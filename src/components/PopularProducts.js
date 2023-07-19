@@ -26,7 +26,7 @@ function PopularProducts() {
             </div>
             <div className="content">
               <span className="name">{item.name}</span>
-              <h4 className="price">${item.price}.00 USD</h4>
+              <h4 className="price">${item.price}.00</h4>
             </div>
           </div>
         ))}
