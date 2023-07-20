@@ -7,7 +7,7 @@ import Slider from "../../../components/Slider";
 import BannerSale from "../../../components/BannerSale";
 import PopularProducts from "../../../components/PopularProducts";
 import BlogItem from "../../../components/BlogItem";
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 function Home() {
   const breakpointsev = {
     700: {

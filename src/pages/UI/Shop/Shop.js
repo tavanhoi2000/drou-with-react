@@ -1,5 +1,5 @@
-import './shop.css'
-import {shopProducts} from '../../../data'
+import "./shop.css";
+import { shopProducts } from "../../../data";
 function Shop() {
   return (
     <main>
@@ -11,7 +11,6 @@ function Shop() {
           <div className="custom-container">
             <div className="row flex-row-reverse">
               <div className="col-lg-9  col-12">
-
                 <div className="row">
                   <div className="col-lg-12">
                     <div className="grid-list-top border-default universal-padding d-md-flex justify-content-md-between align-items-center mb-30">
@@ -62,100 +61,101 @@ function Shop() {
                 </div>
                 <div className="shop-grid">
                   <div className="product-grid-view">
-                    <div className="row" >
-                      {shopProducts.map((item,index) => 
-                      (
+                    <div className="row">
+                      {shopProducts.map((item, index) => (
                         <div className="col-lg-4 col-md-4 col-sm-6 col-12">
-                        <div className="single-product-wrap 40092812050519">
-                          <div className="product-img-action-wrap mb-20">
-                            <div className="product-img product-img-zoom">
-                              <a href="/collections/all/products/drosafe-chargers">
-                                <img
-                                  className="popup_cart_image default-img"
-                                  src={item.img}
-                                  alt={item.name}
-                                />
+                          <div className="single-product-wrap 40092812050519">
+                            <div className="product-img-action-wrap mb-20">
+                              <div className="product-img product-img-zoom">
+                                <a href="/collections/all/products/drosafe-chargers">
+                                  <img
+                                    className="popup_cart_image default-img"
+                                    src={item.img}
+                                    alt={item.name}
+                                  />
 
-                                <img
-                                  className="hover-img "
-                                  src={item.subImg}
-                                  alt={item.name}
-                                />
-                              </a>
-                            </div>
-
-                            <div className="product-action-1">
-                              <button
-                                onclick="Shopify.addItem(40092812050519, 1); return false;"
-                                aria-label="Add To Cart"
-                              >
-                                <i className="far fa-shopping-bag"></i>
-                              </button>
-
-                              <span className="nrb_wlist">
-                                <a
-                                  title=""
-                                  aria-label="Add To Wishlist"
-                                  className="action-wishlist wishlist-btn wishlist"
-                                  href="javascript: void(0)"
-                                  button-wishlist
-                                  data-product-handle="drosafe-chargers"
-                                >
-                                  <span className="add-wishlist">
-                                    <i className="far fa-heart"></i>
-                                  </span>
-                                  <span className="loading-wishlist">
-                                    <i className="fa fa-spinner animated rotateIn infinite"></i>{" "}
-                                  </span>
-                                  <span className="remove-wishlist">
-                                    <i className="fas fa-heart"></i>
-                                  </span>
+                                  <img
+                                    className="hover-img "
+                                    src={item.subImg}
+                                    alt={item.name}
+                                  />
                                 </a>
-                              </span>
-                              <button
-                                className="compare compare_btn"
-                                data-pid="drosafe-chargers"
-                                aria-label="Compare"
-                              >
-                                <i className="far fa-signal"></i>
-                              </button>
+                              </div>
+
+                              <div className="product-action-1">
+                                <button
+                                  onclick="Shopify.addItem(40092812050519, 1); return false;"
+                                  aria-label="Add To Cart"
+                                >
+                                  <i className="far fa-shopping-bag"></i>
+                                </button>
+
+                                <span className="nrb_wlist">
+                                  <a
+                                    title=""
+                                    aria-label="Add To Wishlist"
+                                    className="action-wishlist wishlist-btn wishlist"
+                                    href="javascript: void(0)"
+                                    button-wishlist
+                                    data-product-handle="drosafe-chargers"
+                                  >
+                                    <span className="add-wishlist">
+                                      <i className="far fa-heart"></i>
+                                    </span>
+                                    <span className="loading-wishlist">
+                                      <i className="fa fa-spinner animated rotateIn infinite"></i>{" "}
+                                    </span>
+                                    <span className="remove-wishlist">
+                                      <i className="fas fa-heart"></i>
+                                    </span>
+                                  </a>
+                                </span>
+                                <button
+                                  className="compare compare_btn"
+                                  data-pid="drosafe-chargers"
+                                  aria-label="Compare"
+                                >
+                                  <i className="far fa-signal"></i>
+                                </button>
+                              </div>
                             </div>
-                          </div>
 
-                          <div className="product-content-wrap">
-                            <span
-                              className="shopify-product-reviews-badge"
-                              data-id="6852111237207"
-                            ></span>
-                            <h2>
-                              <a href="/collections/all/products/drosafe-chargers">
-                                {item.name}
-                              </a>
-                            </h2>
-                            <div className="product-price">
-                              <span className="price">
-                                <span className="money">${item.afterPrice}.00</span>
-                              </span>
+                            <div className="product-content-wrap">
+                              <span
+                                className="shopify-product-reviews-badge"
+                                data-id="6852111237207"
+                              ></span>
+                              <h2>
+                                <a href="/collections/all/products/drosafe-chargers">
+                                  {item.name}
+                                </a>
+                              </h2>
+                              <div className="product-price">
+                                <span className="price">
+                                  <span className="money">
+                                    ${item.afterPrice}.00
+                                  </span>
+                                </span>
 
-                              <span className="prev-price">
-                                {item.beforePrice && <del className="money">${item.beforePrice}.00</del>}
-                              </span>
+                                <span className="prev-price">
+                                  {item.beforePrice && (
+                                    <del className="money">
+                                      ${item.beforePrice}.00
+                                    </del>
+                                  )}
+                                </span>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                      )
-                      )
-
-                      }
-    
+                      ))}
                     </div>
                     <div className="shop_pagi">
                       <div className="pro-pagination-style text-center mt-55">
                         <ul className="">
                           <li className="disabled prev">
                             <a href="#">
-                            <i class="fa-solid fa-chevron-left"></i>
+                              <i class="fa-solid fa-chevron-left"></i>
                             </a>
                           </li>
 
@@ -453,7 +453,10 @@ function Shop() {
                       <ul>
                         <li className="red">
                           <a
-                            style={{background: 'red no-repeat center', backgroundSize: 'initial'}}
+                            style={{
+                              background: "red no-repeat center",
+                              backgroundSize: "initial",
+                            }}
                             aria-label="red"
                             href="/collections/all/red"
                           >
@@ -464,7 +467,10 @@ function Shop() {
 
                         <li className="green">
                           <a
-                            style={{background: 'green no-repeat center', backgroundSize: 'initial'}}
+                            style={{
+                              background: "green no-repeat center",
+                              backgroundSize: "initial",
+                            }}
                             aria-label="green"
                             href="/collections/all/green"
                           >
@@ -475,7 +481,10 @@ function Shop() {
 
                         <li className="blue">
                           <a
-                            style={{background: 'blue no-repeat center', backgroundSize: 'initial'}}
+                            style={{
+                              background: "blue no-repeat center",
+                              backgroundSize: "initial",
+                            }}
                             aria-label="blue"
                             href="/collections/all/blue"
                           >
@@ -486,7 +495,10 @@ function Shop() {
 
                         <li className="yellow">
                           <a
-                            style={{background: 'yellow no-repeat center', backgroundSize: 'initial'}}
+                            style={{
+                              background: "yellow no-repeat center",
+                              backgroundSize: "initial",
+                            }}
                             aria-label="yellow"
                             href="/collections/all/yellow"
                           >
@@ -497,7 +509,10 @@ function Shop() {
 
                         <li className="white">
                           <a
-                            style={{background: 'white no-repeat center', backgroundSize: 'initial'}}
+                            style={{
+                              background: "white no-repeat center",
+                              backgroundSize: "initial",
+                            }}
                             aria-label="white"
                             href="/collections/all/white"
                           >
@@ -508,7 +523,10 @@ function Shop() {
 
                         <li className="gold">
                           <a
-                            style={{background: 'gold no-repeat center', backgroundSize: 'initial'}}
+                            style={{
+                              background: "gold no-repeat center",
+                              backgroundSize: "initial",
+                            }}
                             aria-label="gold"
                             href="/collections/all/gold"
                           >
@@ -519,7 +537,10 @@ function Shop() {
 
                         <li className="gray">
                           <a
-                            style={{background: 'gray no-repeat center', backgroundSize: 'initial'}}
+                            style={{
+                              background: "gray no-repeat center",
+                              backgroundSize: "initial",
+                            }}
                             aria-label="gray"
                             href="/collections/all/gray"
                           >
@@ -530,7 +551,10 @@ function Shop() {
 
                         <li className="magenta">
                           <a
-                            style={{background: 'magenta no-repeat center', backgroundSize: 'initial'}}
+                            style={{
+                              background: "magenta no-repeat center",
+                              backgroundSize: "initial",
+                            }}
                             aria-label="magenta"
                             href="/collections/all/magenta"
                           >
@@ -541,7 +565,10 @@ function Shop() {
 
                         <li className="maroon">
                           <a
-                            style={{background: 'maroon no-repeat center', backgroundSize: 'initial'}}
+                            style={{
+                              background: "maroon no-repeat center",
+                              backgroundSize: "initial",
+                            }}
                             aria-label="maroon"
                             href="/collections/all/maroon"
                           >
@@ -552,7 +579,10 @@ function Shop() {
 
                         <li className="navy">
                           <a
-                            style={{background: 'navy no-repeat center', backgroundSize: 'initial'}}
+                            style={{
+                              background: "navy no-repeat center",
+                              backgroundSize: "initial",
+                            }}
                             aria-label="navy"
                             href="/collections/all/navy"
                           >

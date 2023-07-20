@@ -2,11 +2,14 @@ import { useForm } from "react-hook-form";
 import { regexEmail } from "../../../components/regex";
 import "./contact.css";
 function Contact() {
-
-  const {register, handleSubmit, formState: {errors}} = useForm()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   function sendMessage(data) {
-    alert(`Thank you ${data.name} for responding`)
+    alert(`Thank you ${data.name} for responding`);
   }
   return (
     <main>
@@ -33,10 +36,13 @@ function Contact() {
                 <div className="col-lg-4 col-md-4 wow tmFadeInUp">
                   <div className="single-contact-info3-wrap">
                     <div className="single-contact-info3-content ">
-                    <div className="single-contact-info3-icon">
-                      <i className="fa-solid fa-location-dot text-danger" style={{fontSize: 30}}></i>
-                      <h3>ADDRESS</h3>
-                    </div>
+                      <div className="single-contact-info3-icon">
+                        <i
+                          className="fa-solid fa-location-dot text-danger"
+                          style={{ fontSize: 30 }}
+                        ></i>
+                        <h3>ADDRESS</h3>
+                      </div>
                       <p className="width-1">
                         1800 Abbot Kinney Blvd. Unit D & E Venice
                       </p>
@@ -47,7 +53,10 @@ function Contact() {
                 <div className="col-lg-4 col-md-4 wow tmFadeInUp">
                   <div className="single-contact-info3-wrap">
                     <div className="single-contact-info3-icon">
-                      <i className="fa-solid fa-phone text-danger" style={{fontSize: 30}}></i>
+                      <i
+                        className="fa-solid fa-phone text-danger"
+                        style={{ fontSize: 30 }}
+                      ></i>
                       <h3>Contact</h3>
                     </div>
                     <div className="single-contact-info3-content">
@@ -67,14 +76,14 @@ function Contact() {
 
                 <div className="col-lg-4 col-md-4 wow tmFadeInUp">
                   <div className="single-contact-info3-wrap">
-                    
-
                     <div className="single-contact-info3-content">
-                    <div className="single-contact-info3-icon">
-                      <i className="fa-regular fa-clock text-danger" style={{fontSize: 30}}></i>
-                      <h3>HOUR OF OPERATION</h3>
-                    </div>
-                      
+                      <div className="single-contact-info3-icon">
+                        <i
+                          className="fa-regular fa-clock text-danger"
+                          style={{ fontSize: 30 }}
+                        ></i>
+                        <h3>HOUR OF OPERATION</h3>
+                      </div>
                       <p> Monday – Friday : 09:00 – 20:00 </p>{" "}
                       <p> Sunday & Saturday: 10:30 – 22:00</p>
                     </div>
@@ -118,39 +127,46 @@ function Contact() {
                       <input type="hidden" name="utf8" />
                       <div className="row contact-form-style text-center flex-column">
                         <div className="col-12"></div>
-                        <div className="d-flex mb-3" style={{margin:0, padding:0}}>
-                        <div className="col-md-6 " >
-                          <input
-                            type="text"
-                            placeholder="Name *"
-                            className=" input-style "
-                            id="ContactFormName"
-                            {...register('name', { required: true})}
-                          />
-                         
-                        {errors.name && errors.name.type === "required"
-                          ? <p className="text-danger text-start mb-1">Không được để trống trường này!</p>
-                          : null}
-                      
-                        </div>
-                        <div className="col-md-6" >
-                          <input
-                            type="email"
-                            required=""
-                            placeholder="Email *"
-                            className=" input-style "
-                            name="contact[email]"
-                            id="ContactFormEmail"
-                            {...register('email',{ required: true, pattern: regexEmail})}
-                          />
-                          {errors.email && (
-                      <p className="text-danger text-start">
-                        {errors.email.type === "pattern"
-                          ? "Email không đúng định dạng"
-                          : "Không được để trống email"}
-                      </p>
-                    )}
-                        </div>
+                        <div
+                          className="d-flex mb-3"
+                          style={{ margin: 0, padding: 0 }}
+                        >
+                          <div className="col-md-6 ">
+                            <input
+                              type="text"
+                              placeholder="Name *"
+                              className=" input-style "
+                              id="ContactFormName"
+                              {...register("name", { required: true })}
+                            />
+
+                            {errors.name && errors.name.type === "required" ? (
+                              <p className="text-danger text-start mb-1">
+                                Không được để trống trường này!
+                              </p>
+                            ) : null}
+                          </div>
+                          <div className="col-md-6">
+                            <input
+                              type="email"
+                              required=""
+                              placeholder="Email *"
+                              className=" input-style "
+                              name="contact[email]"
+                              id="ContactFormEmail"
+                              {...register("email", {
+                                required: true,
+                                pattern: regexEmail,
+                              })}
+                            />
+                            {errors.email && (
+                              <p className="text-danger text-start">
+                                {errors.email.type === "pattern"
+                                  ? "Email không đúng định dạng"
+                                  : "Không được để trống email"}
+                              </p>
+                            )}
+                          </div>
                         </div>
                         <div className="col-lg-12">
                           <input
@@ -159,7 +175,6 @@ function Contact() {
                             id="ContactFormSubject"
                             name="contact[subject]"
                             placeholder="Subject *"
-                            
                           />
                         </div>
                         <div className="col-lg-12">
