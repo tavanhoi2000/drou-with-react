@@ -7,17 +7,8 @@ import Slider from "../../../components/Slider";
 import BannerSale from "../../../components/BannerSale";
 import PopularProducts from "../../../components/PopularProducts";
 import BlogItem from "../../../components/BlogItem";
+import {Link} from 'react-router-dom'
 function Home() {
-  // const breakpoints = {
-  //   700: {
-  //     itemsToShow: 3,
-  //     snapAlign: "center",
-  //   },
-  //   1024: {
-  //     itemsToShow: 5,
-  //     snapAlign: "start",
-  //   },
-  // };
   const breakpointsev = {
     700: {
       itemsToShow: 2,
@@ -70,9 +61,9 @@ function Home() {
         <div className="Latest_products box_content">
           <div className="head">
             <h3 className="title">Latest Products</h3>
-            <div className="view_more">
+            <Link to="/shop" className="view_more">
               View all products <i className="fa-solid fa-arrow-right"></i>
-            </div>
+            </Link>
           </div>
           <div className="list">
             <Carousel showThumbs={false} wrap-around="true">

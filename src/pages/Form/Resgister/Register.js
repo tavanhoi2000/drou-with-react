@@ -1,15 +1,52 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./register.css";
 import { useForm } from "react-hook-form";
-import {regexEmail, regexPassword} from '../../../components/regex'
+import { regexEmail, regexPassword } from "../../../components/regex";
+import { auth } from "../../../config/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function Register() {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const createUser = (data) => {
-    console.log(data);
+  const createUser = async (data) => {
+    try {
+      await createUserWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      ).then((res) => {
+        res.user.displayName = data.name;
+        toast.success("You have successfully registered", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        navigate("/account/login");
+      });
+    } catch (error) {
+      if (error.code === "auth/email-already-in-use") {
+        toast.error(`Email đã tồn tại !`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+    }
   };
   return (
     <main>
@@ -71,8 +108,7 @@ function Register() {
                       placeholder="Email"
                       {...register("email", {
                         required: true,
-                        pattern:
-                        regexEmail
+                        pattern: regexEmail,
                       })}
                     />
                     {errors.email && (
@@ -100,8 +136,7 @@ function Register() {
                       placeholder="Password"
                       {...register("password", {
                         required: true,
-                        pattern:
-                          regexPassword
+                        pattern: regexPassword,
                       })}
                     />
                     {errors.password && (

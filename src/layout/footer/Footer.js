@@ -5,7 +5,7 @@ function Footer() {
       <div id="section-footer">
         <footer className="footer-area pt-70 pb-30">
           <div className="custom-container container d-flex justify-content-between">
-            <div className="row  ">
+            <div className="row">
               <div className="col-width-25 custom-common-column">
                 <div className="footer-widget mb-40">
                   <h3 className="footer-title">Contact us</h3>

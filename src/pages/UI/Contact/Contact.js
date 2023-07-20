@@ -85,7 +85,7 @@ function Contact() {
           </div>
         </div>
       </div>
-      <div className="container" style={{ height: 500 }}>
+      <div className="container">
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d119077.55732640954!2d105.73302747566231!3d21.1454859241021!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x313455a311380161%3A0xebdc7c84b7794d4d!2zQ8O0bmcgVHkgR2nDoW8gROG7pWMgVGjDtG5nIE1pbmggVmlldEVE!5e0!3m2!1svi!2s!4v1689562915691!5m2!1svi!2s"
           width="100%"
@@ -95,7 +95,7 @@ function Contact() {
           frameBorder={0}
           marginHeight={0}
           marginWidth={0}
-          style={{ filter: "opacity(0.7)" }}
+          style={{ filter: "opacity(0.7)", height: 500 }}
         ></iframe>
 
         <div className="contact-from-area  padding-20-row-col wow tmFadeInUp">
@@ -144,7 +144,7 @@ function Contact() {
                             {...register('email',{ required: true, pattern: regexEmail})}
                           />
                           {errors.email && (
-                      <p className="text-danger">
+                      <p className="text-danger text-start">
                         {errors.email.type === "pattern"
                           ? "Email không đúng định dạng"
                           : "Không được để trống email"}
