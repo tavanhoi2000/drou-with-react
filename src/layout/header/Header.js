@@ -49,7 +49,7 @@ function Header() {
               </li>
             </ul>
           </div>
-          <div className="nav__items">
+          <div className="nav__items d-flex justify-content-around">
             <i className="fa-solid fa-magnifying-glass"></i>
             <i className="fa-regular fa-heart" />
             <i className="fa-light fa-cart-shopping"></i>

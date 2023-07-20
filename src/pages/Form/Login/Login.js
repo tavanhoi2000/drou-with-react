@@ -1,86 +1,112 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import "./login.css";
+import { auth } from "../../../config/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { useState } from "react";
 function Login() {
+  const [error, setError] = useState(null)
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
-    formState: { error },
+    formState: { errors },
   } = useForm();
+  const onLogin = async (data) => {
+    try {
+      await signInWithEmailAndPassword(auth, data.email, data.password).then(
+        (res) => {
+          if (res.operationType === "signIn") {
+            return navigate("/");
+          }
+        }
+      );
+    } catch (error) {
+      if(error.code === 'auth/user-not-found') {
+        setError("Tài khoản không tồn tại ! ")
+      }else if(error.code === 'auth/wrong-password') {
+        setError('Mật khâủ không chính xác!')
+      }
+    }
+  };
   return (
     <main>
-      <div class="login theme-default-margin">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2">
-              <div class="login-form">
+      <div className="login theme-default-margin">
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-6 offset-lg-3 col-md-8 offset-md-2">
+              <div className="login-form">
                 <div id="CustomerLoginForm">
-                  <form
-                    method="post"
-                    action="/account/login"
-                    id="customer_login"
-                    data-login-with-shop-sign-in="true"
-                  >
-                    <input
-                      type="hidden"
-                      name="form_type"
-                      value="customer_login"
-                    />
-                    <input type="hidden" name="utf8" value="✓" />
+                  <form id="customer_login" onSubmit={handleSubmit(onLogin)}>
+                    <input type="hidden" name="form_type" />
+                    <input type="hidden" name="utf8" />
 
-                    <div class="form-container">
-                      <div class="login-text">
-                        <h3 class="login-header">Login </h3>
+                    <div className="form-container">
+                      <div className="login-text">
+                        <h3 className="login-header">Login </h3>
                         <p>Please login using account detail bellow.</p>
+                        <p className="text-danger">{error}</p>
                       </div>
-                      <div class="login-form-wrapper">
-                        <div class="form-group row">
-                          <label for="email" class="col-sm-3 col-form-label">
+                      <div className="login-form-wrapper">
+                        <div className="form-group row">
+                          <label
+                            htmlFor="email"
+                            className="col-sm-3 col-form-label"
+                          >
                             Email
                           </label>
-                          <div class="col-sm-7">
+                          <div className="col-sm-7">
                             <input
                               type="email"
-                              name="customer[email]"
                               id="CustomerEmail"
-                              class="form-control "
+                              className="form-control "
                               placeholder="Email"
-                              autocorrect="off"
-                              autocapitalize="off"
-                              autofocus
+                              autoFocus
+                              {...register("email", { required: true })}
                             />
+                            {errors.email && (
+                              <p className="text-danger">
+                                {errors.email.type === "required"
+                                  ? "Không được để trống name "
+                                  : null}
+                              </p>
+                            )}
                           </div>
                         </div>
-                        <div class="form-group row">
+                        <div className="form-group row">
                           <label
-                            for="inputPassword"
-                            class="col-sm-3 col-form-label"
+                            htmlFor="inputPassword"
+                            className="col-sm-3 col-form-label"
                           >
                             Password
                           </label>
-                          <div class="col-sm-7">
+                          <div className="col-sm-7">
                             <input
                               type="password"
-                              value=""
-                              name="customer[password]"
                               id="CustomerPassword"
-                              class="form-control "
+                              className="form-control "
                               placeholder="Password"
+                              {...register("password", { required: true })}
                             />
+                            {errors.password && (
+                              <p className="text-danger">
+                                {errors.password.type === "required"
+                                  ? "Không được để trống password "
+                                  : null}
+                              </p>
+                            )}
                           </div>
                         </div>
 
-                        <div class="login-toggle-btn">
-                          <div class="login-details text-center mb-25">
+                        <div className="login-toggle-btn">
+                          <div className="login-details text-center mb-25">
                             <a href="#recover" id="RecoverPassword">
                               Forgot your password?
                             </a>
 
-                            <button type="submit" class="login-btn">
-                              Sign In
-                            </button>
+                            <button className="login-btn">Sign In</button>
                           </div>
-                          <div class="login-footer text-center">
+                          <div className="login-footer text-center">
                             <p>
                               <Link
                                 to="/account/register"
@@ -99,34 +125,29 @@ function Login() {
                   <form
                     method="post"
                     action="/account/recover"
-                    accept-charset="UTF-8"
+                    acceptCharset="UTF-8"
                   >
-                    <input
-                      type="hidden"
-                      name="form_type"
-                      value="recover_customer_password"
-                    />
-                    <input type="hidden" name="utf8" value="✓" />
+                    <input type="hidden" name="form_type" />
+                    <input type="hidden" name="utf8" />
 
-                    <div class="form-container">
-                      <div class="login-text">
+                    <div className="form-container">
+                      <div className="login-text">
                         <h2>Reset your password</h2>
                         <p>We will send you an email to reset your password.</p>
                       </div>
-                      <div class="login-form-wrapper">
+                      <div className="login-form-wrapper">
                         <input
                           type="email"
-                          value=""
                           name="email"
                           id="RecoverEmail"
-                          class="input-full"
+                          className="input-full"
                           placeholder="Email"
-                          autocorrect="off"
-                          autocapitalize="off"
+                          autoCorrect="off"
+                          autoCapitalize="off"
                         />
-                        <div class="login-toggle-btn">
-                          <div class="form-action-button">
-                            <button type="submit" class="login-btn">
+                        <div className="login-toggle-btn">
+                          <div className="form-action-button">
+                            <button type="submit" className="login-btn">
                               Submit
                             </button>
                             <a href="#" id="HideRecoverPasswordLink">

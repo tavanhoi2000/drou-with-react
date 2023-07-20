@@ -4,3 +4,7 @@
 ul {
     padding: 0;
 }
+.footer-area .row {
+    width: 100%;
+    flex-wrap: nowrap;
+}

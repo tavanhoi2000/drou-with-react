@@ -6,11 +6,12 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Register from "./pages/Form/Resgister/Register";
 import Contact from "./pages/UI/Contact/Contact";
 import Footer from "./layout/footer/Footer";
-
+import {ToastContainer} from 'react-toastify'
 function App() {
   return (
     <Router>
       <div className="app">
+        <ToastContainer />
         <Header />
         <Routes>
           <Route path="/" element={<Home />}></Route>
