@@ -1,6 +1,20 @@
-import { Link } from 'react-router-dom';
-import './Header.scss'
-function Header() {
+import { Link, useNavigate } from "react-router-dom";
+import { signOut, getAuth } from "firebase/auth";
+import "./Header.scss";
+function HeaderLogin() {
+  const auth = getAuth()
+  const navigate = useNavigate();
+  const Logout = () => {
+     signOut(auth)
+      .then(() => {
+        console.log(1)
+        localStorage.removeItem("token");
+        navigate("/account/login");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
     <>
       <header>
@@ -20,17 +34,17 @@ function Header() {
             <li> USD </li> |
             <ul>
               <li>
-                <Link to="/account/login">Log In</Link>
+                <Link to="/account/profile">Name</Link>
               </li>{" "}
               /
               <li>
-                <Link to="/account/register">Sign Up</Link>
+                <button onClick={Logout}>Logout</button>
               </li>
             </ul>
           </ul>
         </div>
       </header>
-      <hr/>
+      <hr />
       <div className="container">
         <nav>
           <div className="nav__logo">
@@ -60,4 +74,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default HeaderLogin;

@@ -23,11 +23,11 @@ function Shop() {
                         </button>
                       </div>
                       <span className="show-items">
-                        Showing 1 - 9 of 11 result
+                        Showing 1 - 9 of {shopProducts.length} result
                       </span>
                       <div className="main-toolbar-sorter clearfix">
                         <div className="toolbar-sorter d-md-flex align-items-center">
-                          <label for="SortBy">Sort by:</label>
+                          <label htmlFor="SortBy">Sort by:</label>
                           <select
                             className="sorter wide"
                             name="SortBy"
@@ -63,7 +63,7 @@ function Shop() {
                   <div className="product-grid-view">
                     <div className="row">
                       {shopProducts.map((item, index) => (
-                        <div className="col-lg-4 col-md-4 col-sm-6 col-12">
+                        <div className="col-lg-4 col-md-4 col-sm-6 col-12" key={index}>
                           <div className="single-product-wrap 40092812050519">
                             <div className="product-img-action-wrap mb-20">
                               <div className="product-img product-img-zoom">
@@ -96,7 +96,6 @@ function Shop() {
                                     aria-label="Add To Wishlist"
                                     className="action-wishlist wishlist-btn wishlist"
                                     href="javascript: void(0)"
-                                    button-wishlist
                                     data-product-handle="drosafe-chargers"
                                   >
                                     <span className="add-wishlist">
@@ -155,7 +154,7 @@ function Shop() {
                         <ul className="">
                           <li className="disabled prev">
                             <a href="#">
-                              <i class="fa-solid fa-chevron-left"></i>
+                              <i className="fa-solid fa-chevron-left"></i>
                             </a>
                           </li>
 
@@ -176,7 +175,7 @@ function Shop() {
                               href="/collections/all?page=2"
                               title="Next &raquo;"
                             >
-                              <i class="fa-solid fa-chevron-right"></i>
+                              <i className="fa-solid fa-chevron-right"></i>
                             </a>
                           </li>
                         </ul>

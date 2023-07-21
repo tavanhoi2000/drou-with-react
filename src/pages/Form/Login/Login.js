@@ -17,7 +17,10 @@ function Login() {
       await signInWithEmailAndPassword(auth, data.email, data.password).then(
         (res) => {
           if (res.operationType === "signIn") {
-            return navigate("/");
+          localStorage.setItem('token', res._tokenResponse.idToken)
+           if(localStorage.getItem('token') !== null) {
+            return navigate('/')
+           }
           }
         }
       );

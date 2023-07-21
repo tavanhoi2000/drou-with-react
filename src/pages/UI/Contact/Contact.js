@@ -104,7 +104,6 @@ function Contact() {
           frameBorder={0}
           marginHeight={0}
           marginWidth={0}
-          style={{ filter: "opacity(0.7)", height: 500 }}
         ></iframe>
 
         <div className="contact-from-area  padding-20-row-col wow tmFadeInUp">

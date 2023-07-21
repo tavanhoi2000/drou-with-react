@@ -82,3 +82,8 @@
 #ContactFormSubject {
   margin-bottom: 10px;
 }
+
+.container iframe {
+  opacity: .7;
+  height: 500px;
+}
