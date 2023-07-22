@@ -1,4 +1,4 @@
-import './footer.css'
+import "./footer.css";
 function Footer() {
   return (
     <div id="shopify-section-footer" className="shopify-section">
@@ -13,7 +13,7 @@ function Footer() {
                   <div className="footer-info">
                     <ul className="footer-block__details-content information">
                       <li>
-                        <span style={{textAlign: 'left'}}>
+                        <span style={{ textAlign: "left" }}>
                           Drou Demo Store
                           <p> No. 1259 Freedom, New York</p>
                           <p>United States</p>
@@ -56,11 +56,9 @@ function Footer() {
                   </div>
                 </div>
               </div>
-
               <div className="col-width-22 custom-common-column">
                 <div className="footer-widget mb-40">
                   <h3 className="footer-title">Customer Service</h3>
-
                   <div className="footer-info-list">
                     <ul>
                       <li>

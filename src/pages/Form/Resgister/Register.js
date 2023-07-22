@@ -31,7 +31,7 @@ function Register() {
           progress: undefined,
           theme: "light",
         });
-        navigate("/account/login");
+        navigate("/login");
       });
     } catch (error) {
       if (error.code === "auth/email-already-in-use") {
@@ -59,7 +59,7 @@ function Register() {
                 <p>Please Register using account detail bellow.</p>
                 <p>
                   Already have an account?{" "}
-                  <Link to="/account/login">Sign In</Link>
+                  <Link to="/login">Sign In</Link>
                 </p>
               </div>
               <form>

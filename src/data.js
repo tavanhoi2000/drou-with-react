@@ -149,6 +149,7 @@ export const blogEvents = [
 
 export const shopProducts = [
   {
+    id: 1,
     name: "Drou watch ultra",
     img: "images/cate_6.jpg",
     subImg: "images/cate_5.jpg",
@@ -156,6 +157,7 @@ export const shopProducts = [
     afterPrice: 70,
   },
   {
+    id: 2,
     name: "DrouPods max",
     img: "images/cate_3.jpg",
     subImg: "images/cate_10.jpg",
@@ -163,6 +165,7 @@ export const shopProducts = [
     afterPrice: 75,
   },
   {
+    id: 3,
     name: "Iphone 13 white color",
     img: "images/cate_7.jpg",
     subImg: "images/cate_9.jpg",
@@ -170,6 +173,7 @@ export const shopProducts = [
     afterPrice: 999,
   },
   {
+    id: 4,
     name: "Iphone 14",
     img: "images/cate_8.jpg",
     subImg: "images/cate_7.jpg",
@@ -177,6 +181,7 @@ export const shopProducts = [
     afterPrice: 110,
   },
   {
+    id: 5,
     name: "Droubook space gray",
     img: "images/cate_11.jpg",
     subImg: "images/cate_12.jpg",
@@ -184,6 +189,7 @@ export const shopProducts = [
     afterPrice: 80,
   },
   {
+    id: 6,
     name: "DrouPods Pro white",
     img: "images/cate_5.jpg",
     subImg: "images/sub_product_1.jpg",
@@ -191,6 +197,7 @@ export const shopProducts = [
     afterPrice: 39,
   },
   {
+    id: 7,
     name: "Homepod mini 2022",
     img: "images/cate_1.jpg",
     subImg: "images/cate_13.jpg",
@@ -198,6 +205,7 @@ export const shopProducts = [
     afterPrice: 39,
   },
   {
+    id: 8,
     name: "Home Entertainment",
     img: "images/cate_14.jpg",
     subImg: "images/cate_15.jpg",
@@ -205,6 +213,7 @@ export const shopProducts = [
     afterPrice: 70,
   },
   {
+    id: 9,
     name: "Drou watch ultra",
     img: "images/cate_6.jpg",
     subImg: "images/cate_8.jpg",

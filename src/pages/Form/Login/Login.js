@@ -4,7 +4,7 @@ import "./login.css";
 import { auth } from "../../../config/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
-function Login() {
+function Login({setUserLogin, isUserLogin}) {
   const [error, setError] = useState(null)
   const navigate = useNavigate();
   const {
@@ -18,7 +18,8 @@ function Login() {
         (res) => {
           if (res.operationType === "signIn") {
           localStorage.setItem('token', res._tokenResponse.idToken)
-           if(localStorage.getItem('token') !== null) {
+          isUserLogin = true
+           if(isUserLogin === true) {
             return navigate('/')
            }
           }
@@ -41,9 +42,6 @@ function Login() {
               <div className="login-form">
                 <div id="CustomerLoginForm">
                   <form id="customer_login" onSubmit={handleSubmit(onLogin)}>
-                    <input type="hidden" name="form_type" />
-                    <input type="hidden" name="utf8" />
-
                     <div className="form-container">
                       <div className="login-text">
                         <h3 className="login-header">Login </h3>
@@ -112,7 +110,7 @@ function Login() {
                           <div className="login-footer text-center">
                             <p>
                               <Link
-                                to="/account/register"
+                                to="/register"
                                 id="customer_register_link"
                               >
                                 Create account
@@ -130,8 +128,6 @@ function Login() {
                     action="/account/recover"
                     acceptCharset="UTF-8"
                   >
-                    <input type="hidden" name="form_type" />
-                    <input type="hidden" name="utf8" />
 
                     <div className="form-container">
                       <div className="login-text">

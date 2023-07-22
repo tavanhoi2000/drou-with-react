@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
-import './Header.scss'
-function Header() {
+import { Link } from "react-router-dom";
+import "./Header.scss";
+function Header({ userAuthentication, isUserLogin }) {
   return (
     <>
       <header>
@@ -18,19 +18,20 @@ function Header() {
         <div className="header__right">
           <ul>
             <li> USD </li> |
-            <ul>
-              <li>
-                <Link to="/account/login">Log In</Link>
-              </li>{" "}
-              /
-              <li>
-                <Link to="/account/register">Sign Up</Link>
-              </li>
-            </ul>
+            {
+              isUserLogin ? <ul>
+                <li><Link to='/profile'>Name</Link></li> /
+                <li><Link onClick={userAuthentication}>Logout</Link></li>
+              </ul>
+               : <ul>
+                <li><Link to='/login'>Sign In</Link></li> /
+                <li><Link to='/register'>Sign Up</Link></li>
+              </ul>
+            }
           </ul>
         </div>
       </header>
-      <hr/>
+      <hr />
       <div className="container">
         <nav>
           <div className="nav__logo">

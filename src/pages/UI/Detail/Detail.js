@@ -1,9 +1,15 @@
 import "./detail.css";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Item from "../../../components/Item";
+import { shopProducts } from "../../../data";
 import { Carousel } from "react-responsive-carousel";
-
-function DetailProduct() {
+import { useState } from "react";
+function Detail() {
+  const [quantity, setQuantity] = useState(1);
+  const { shopId } = useParams()
+  const product = shopProducts.find((product) => product.id == shopId)
+  const { name, img, afterPrice } = product
+  console.log(img);
   return (
     <main>
       <div
@@ -26,8 +32,8 @@ function DetailProduct() {
                           <img
                             id="ProductPhotoImg"
                             className="product-zoom product_variant_image"
-                            alt="lPhone 14 pro max"
-                            src="//drou-electronics-store.myshopify.com/cdn/shop/products/p8_523c97c7-2aa2-47e8-8b17-5a3c05a66db3_1024x1024_crop_center.jpg?v=1674275335"
+                            alt={name}
+                            src={img}
                           />
                         </div>
                         <div
@@ -65,308 +71,301 @@ function DetailProduct() {
                           </div>
                         </div>
                       </div>
-                      
                     </div>
                   </div>
                   <div className="col-md-12 col-lg-6 col-12">
-                        <div id="product-content">
-                          <form
-                            id="AddToCartForm"
-                            className="product-content-inner"
-                            encType="multipart/form-data"
-                          >
-                            <div className="product-details xxx">
-                              <h3 id="popup_cart_title">IPhone 14 pro max</h3>
+                    <div id="product-content">
+                      <form
+                        id="AddToCartForm"
+                        className="product-content-inner"
+                        encType="multipart/form-data"
+                      >
+                        <div className="product-details xxx">
+                          <h3 id="popup_cart_title">{name}</h3>
 
-                              <div className="product-variant-inventory">
-                                <span className="inventory-title">
-                                  Availability:
-                                </span>{" "}
-                                <span className="variant-inventory">
-                                  11 left in stock
-                                </span>
-                              </div>
+                          <div className="product-variant-inventory">
+                            <span className="inventory-title">
+                              Availability:
+                            </span>{" "}
+                            <span className="variant-inventory">
+                              11 left in stock
+                            </span>
+                          </div>
 
-                              <div className="stock_countdown_progress">
-                                <span className="stock_progress_bar"></span>
-                              </div>
-                              <div className="product-sku-and-review">
-                                <div className="product-sku">
-                                  SKU: <span className="variant-sku">111</span>
-                                </div>
-                                <div className="product-ratting">
-                                  <span
-                                    className="shopify-product-reviews-badge"
-                                    data-id="6852111466583"
-                                  ></span>
-                                </div>
-                              </div>
-                              <div className="pro-thumb-price mt-10">
-                                <p className="d-flex align-items-center">
-                                  <span id="ProductPrice" className="price">
-                                    <span className="money">$999.00</span>
-                                  </span>
-                                </p>
-                                
-                              </div>
+                          <div className="stock_countdown_progress">
+                            <span className="stock_progress_bar"></span>
+                          </div>
+                          <div className="product-sku-and-review">
+                            <div className="product-sku">
+                              SKU: <span className="variant-sku">111</span>
+                            </div>
+                            <div className="product-ratting">
+                              <span
+                                className="shopify-product-reviews-badge"
+                                data-id="6852111466583"
+                              ></span>
+                            </div>
+                          </div>
+                          <div className="pro-thumb-price mt-10">
+                            <p className="d-flex align-items-center">
+                              <span id="ProductPrice" className="price">
+                                <span className="money">${afterPrice}.00</span>
+                              </span>
+                            </p>
+                          </div>
 
-                              <div className="product-description">
-                                <p>
-                                  <span>
-                                    All the Lorem Ipsum generators on the
-                                    Internet tend to repeat predefined chunks as
-                                    necessary, making this the first true
-                                    generator on the Internet.{" "}
-                                  </span>
-                                </p>
-                              </div>
-                              <div className="product-variant-option">
-                                <select
-                                  name="id"
-                                  id="productSelect"
-                                  className="product-single__variants"
-                                  defaultValue={""}
-                                  style={{ display: "none" }}
-                                >
-                                  <option selected data-sku="111">
-                                    red -{" "}
-                                    <span className="money">$999.00 USD</span>
-                                  </option>
+                          <div className="product-description">
+                            <p>
+                              <span>
+                                All the Lorem Ipsum generators on the Internet
+                                tend to repeat predefined chunks as necessary,
+                                making this the first true generator on the
+                                Internet.{" "}
+                              </span>
+                            </p>
+                          </div>
+                          <div className="product-variant-option">
+                            <select
+                              name="id"
+                              id="productSelect"
+                              className="product-single__variants"
+                              defaultValue={1}
+                            >
+                              <option selected data-sku="111">
+                                red - <span className="money">$999.00 USD</span>
+                              </option>
 
-                                  <option data-sku="112">
-                                    green -{" "}
-                                    <span className="money">$999.00 USD</span>
-                                  </option>
+                              <option data-sku="112">
+                                green -{" "}
+                                <span className="money">$999.00 USD</span>
+                              </option>
 
-                                  <option data-sku="113">
-                                    blue -{" "}
-                                    <span className="money">$999.00 USD</span>
-                                  </option>
-                                </select>
+                              <option data-sku="113">
+                                blue -{" "}
+                                <span className="money">$999.00 USD</span>
+                              </option>
+                            </select>
 
-                                <div
-                                  className="swatch variant_div clearfix Color d-flex align-items-center"
-                                >
-                                  <div className="header">Color : </div>
-                                  <div className="variant_inner">
-                                    <div className="swatch-element color  available">
-                                      <input
-                                        id="swatch-0-red"
-                                        type="radio"
-                                        name="option-0"
-                                        checked
-                                      />
-
-                                      <label
-                                        className="lazyload bg-danger"
-                                        htmlFor="swatch-0-red"
-                                      ></label>
-                                    </div>
-
-                                    <div className="swatch-element color available">
-                                      <input
-                                        id="swatch-0-green"
-                                        type="radio"
-                                        name="option-0"
-                                      />
-
-                                      <label
-                                        className="lazyload bg-success"
-                                        htmlFor="swatch-0-green"
-                                     
-                                      ></label>
-                                    </div>
-
-                                    <div className="swatch-element color  available">
-                                      <input
-                                        id="swatch-0-blue"
-                                        type="radio"
-                                      />
-                                      <label
-                                        className="lazyload bg-primary"
-                                        htmlFor="swatch-0-blue"
-                                        
-                                      ></label>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="product_additional_information mb-30 mt-10">
-                                <button
-                                  type="button"
-                                  data-toggle="modal"
-                                  data-target="#size_guide"
-                                >
-                                  <i className="fa-solid fa-pencil"></i> Size Guide
-                                </button>
-                                <button
-                                  type="button"
-                                  data-toggle="modal"
-                                  data-target="#shipping_policy"
-                                >
-                                  <i className="fa-solid fa-truck"></i>{" "}
-                                  Shipping
-                                </button>
-                                <button
-                                  type="button"
-                                  data-toggle="modal"
-                                  data-target="#ask_about_product"
-                                >
-                                  <i className="fa-solid fa-envelope"></i>
-                                  Ask About This product
-                                </button>
-                              </div>
-                              <div className="product-actions quantity-cart-box d-flex align-items-center product-details-des">
-                                <div className="shop-product__block shop-product__block--quantity mb-40">
-                                  <div className="shop-product__block__value">
-                                    <div className="pro-qty d-inline-block mx-0 pt-0">
-                                      <span className="dec">-</span>
-                                      <input
-                                        type="text"
-                                        name="quantity"
-                                        totalqty="11"
-                                        defaultValue={1}
-                                      />
-                                      <span className="inc">+</span>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="product-cart-action">
-                                  <button
-                                    type="submit"
-                                    className="pro-cart"
-                                    id="AddToCart"
-                                  >
-                                    <span>
-                                      <span
-                                        className="cart-title"
-                                        id="AddToCartText"
-                                      >
-                                        Add to cart
-                                      </span>
-                                    </span>
-                                  </button>
-                                </div>
-                                <div className="wishlist-action">
-                                  <a
-
-                                    className="action-wishlist wishlist-btn wishlist"
-                                    href="javascript: void(0)"
-                                  >
-                                    <span className="add-wishlist">
-                                      <i className="far fa-heart"></i>
-                                    </span>
-                                    <span className="loading-wishlist">
-                                      <i className="fa fa-spinner animated rotateIn infinite"></i>{" "}
-                                    </span>
-                                    <span className="remove-wishlist">
-                                      <i className="fas fa-heart"></i>
-                                    </span>
-                                  </a>
-                                </div>
-                              </div>
-                              <div className="dynmiac_checkout--button">
-                                <div className="checkout_button">
-                                  <div
-                                    className="shopify-payment-button"
-                                  >
-                                    <button
-                                      className="shopify-payment-button__button shopify-payment-button__button--unbranded shopify-payment-button__button--hidden"
-                                    >
-                                     Buy it now {" "}
-                                    </button>
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div
-                                className="product-complementary  nav-style-2 nav-style-2-modify-2 "
-                                data-url="/recommendations/products?section_id=template--14837292236887__product-template&product_id=6852111466583&limit=8&intent=complementary"
-                              ></div>
-
-                              <div className="custom-payment-options">
-                                <div>
-                                  <p>Guaranteed safe checkout</p>
-                                </div>
-                                <div className="methods-of-payment">
-                                  <img
-                                    src="//drou-electronics-store.myshopify.com/cdn/shopifycloud/shopify/assets/payment_icons/amazon-92e856f82cae5a564cd0f70457f11af4d58fa037cf6e5ab7adf76f6fd3b9cafe.svg"
-                                    height="35"
-                                    alt="amazon payments"
+                            <div className="swatch variant_div clearfix Color d-flex align-items-center">
+                              <div className="header">Color : </div>
+                              <div className="variant_inner">
+                                <div className="swatch-element color  available">
+                                  <input
+                                    id="swatch-0-red"
+                                    type="radio"
+                                    name="option-0"
+                                    checked
                                   />
-                                  <img
-                                    src="//drou-electronics-store.myshopify.com/cdn/shopifycloud/shopify/assets/payment_icons/american_express-2264c9b8b57b23b0b0831827e90cd7bcda2836adc42a912ebedf545dead35b20.svg"
-                                    height="35"
-                                    alt="american express"
-                                  />
-                                  <img
-                                    src="//drou-electronics-store.myshopify.com/cdn/shopifycloud/shopify/assets/payment_icons/apple_pay-f6db0077dc7c325b436ecbdcf254239100b35b70b1663bc7523d7c424901fa09.svg"
-                                    height="35"
-                                    alt="apple pay"
-                                  />
-                                  <img
-                                    src="//drou-electronics-store.myshopify.com/cdn/shopifycloud/shopify/assets/payment_icons/bitcoin-e41278677541fc32b8d2e7fa41e61aaab2935151a6048a1d8d341162f5b93a0a.svg"
-                                    height="35"
-                                    alt="bitcoin"
-                                  />
-                                  <img
-                                    src="//drou-electronics-store.myshopify.com/cdn/shopifycloud/shopify/assets/payment_icons/dankort-a92b320b417b7c123265e1e4fe134935ac76ec7e297be9b02a5ef76b182a29cc.svg"
-                                    height="35"
-                                    alt="dankort"
-                                  />
-                                  <img
-                                    src="//drou-electronics-store.myshopify.com/cdn/shopifycloud/shopify/assets/payment_icons/google_pay-c66a29c63facf2053bf69352982c958e9675cabea4f2f7ccec08d169d1856b31.svg"
-                                    height="35"
-                                    alt="google pay"
-                                  />
-                                  <img
-                                    src="//drou-electronics-store.myshopify.com/cdn/shopifycloud/shopify/assets/payment_icons/paypal-49e4c1e03244b6d2de0d270ca0d22dd15da6e92cc7266e93eb43762df5aa355d.svg"
-                                    height="35"
-                                    alt="paypal"
-                                  />
-                                  <img
-                                    src="//drou-electronics-store.myshopify.com/cdn/shopifycloud/shopify/assets/payment_icons/visa-319d545c6fd255c9aad5eeaad21fd6f7f7b4fdbdb1a35ce83b89cca12a187f00.svg"
-                                    height="35"
-                                    alt="visa"
-                                  />
+
+                                  <label
+                                    className="lazyload bg-danger"
+                                    htmlFor="swatch-0-red"
+                                  ></label>
                                 </div>
-                              </div>
-                              <div className="product-details-social tooltip-style-4">
-                                <span>
-                                  {" "}
-                                  <label>Share:</label>
-                                </span>
 
-                                <a
-                                  aria-label="Facebook"
-                                  className="facebook"
-                                  target="_blank"
-                                  href="//www.facebook.com/sharer.php?u=https://drou-electronics-store.myshopify.com/products/lphone-14-pro-max"
-                                >
-                                  <i className="fab fa-facebook-f"></i>
-                                </a>
-                                <a
-                                  aria-label="Twitter"
-                                  className="twitter"
-                                  target="_blank"
-                                  href="//twitter.com/share?text=lPhone%2014%20pro%20max&amp;url=https://drou-electronics-store.myshopify.com/products/lphone-14-pro-max;source=webclient"
-                                >
-                                  <i className="fab fa-twitter"></i>
-                                </a>
+                                <div className="swatch-element color available">
+                                  <input
+                                    id="swatch-0-green"
+                                    type="radio"
+                                    name="option-0"
+                                  />
 
-                                <a
-                                  aria-label="pinterest"
-                                  className="pinterest"
-                                  target="_blank"
-                                  href="//pinterest.com/pin/create/button/?url=https://drou-electronics-store.myshopify.com/products/lphone-14-pro-max&amp;media=http://drou-electronics-store.myshopify.com/cdn/shop/products/p8_523c97c7-2aa2-47e8-8b17-5a3c05a66db3_1024x1024.jpg?v=1674275335&amp;description=lPhone%2014%20pro%20max"
-                                >
-                                  <i className="fab fa-pinterest-p"></i>
-                                </a>
+                                  <label
+                                    className="lazyload bg-success"
+                                    htmlFor="swatch-0-green"
+                                  ></label>
+                                </div>
+
+                                <div className="swatch-element color  available">
+                                  <input id="swatch-0-blue" type="radio" />
+                                  <label
+                                    className="lazyload bg-primary"
+                                    htmlFor="swatch-0-blue"
+                                  ></label>
+                                </div>
                               </div>
                             </div>
-                          </form>
+                          </div>
+                          <div className="product_additional_information mb-30 mt-10">
+                            <button
+                              type="button"
+                              data-toggle="modal"
+                              data-target="#size_guide"
+                            >
+                              <i className="fa-solid fa-pencil"></i> Size Guide
+                            </button>
+                            <button
+                              type="button"
+                              data-toggle="modal"
+                              data-target="#shipping_policy"
+                            >
+                              <i className="fa-solid fa-truck"></i> Shipping
+                            </button>
+                            <button
+                              type="button"
+                              data-toggle="modal"
+                              data-target="#ask_about_product"
+                            >
+                              <i className="fa-solid fa-envelope"></i>
+                              Ask About This product
+                            </button>
+                          </div>
+                          <div className="product-actions quantity-cart-box d-flex align-items-center product-details-des">
+                            <div className="shop-product__block shop-product__block--quantity mb-40">
+                              <div className="shop-product__block__value">
+                                <div className="pro-qty d-inline-block mx-0 pt-0">
+                                  <span
+                                    className="dec"
+                                    onClick={() => setQuantity(quantity - 1)}
+                                  >
+                                    -
+                                  </span>
+                                  <input
+                                    type="text"
+                                    name="quantity"
+                                    totalqty="11"
+                                    defaultValue={quantity}
+                                  />
+                                  <span
+                                    className="inc"
+                                    onClick={() => setQuantity(quantity + 1)}
+                                  >
+                                    +
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="product-cart-action">
+                              <button
+                                type="submit"
+                                className="pro-cart"
+                                id="AddToCart"
+                              >
+                                <span>
+                                  <span
+                                    className="cart-title"
+                                    id="AddToCartText"
+                                  >
+                                    Add to cart
+                                  </span>
+                                </span>
+                              </button>
+                            </div>
+                            <div className="wishlist-action">
+                              <a
+                                className="action-wishlist wishlist-btn wishlist"
+                                href=""
+                              >
+                                <span className="add-wishlist">
+                                  <i className="far fa-heart"></i>
+                                </span>
+                                <span className="loading-wishlist">
+                                  <i className="fa fa-spinner animated rotateIn infinite"></i>{" "}
+                                </span>
+                                <span className="remove-wishlist">
+                                  <i className="fas fa-heart"></i>
+                                </span>
+                              </a>
+                            </div>
+                          </div>
+                          <div className="dynmiac_checkout--button">
+                            <div className="checkout_button">
+                              <div className="shopify-payment-button">
+                                <button className="shopify-payment-button__button shopify-payment-button__button--unbranded shopify-payment-button__button--hidden">
+                                  Buy it now{" "}
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div
+                            className="product-complementary  nav-style-2 nav-style-2-modify-2 "
+                            data-url="/recommendations/products?section_id=template--14837292236887__product-template&product_id=6852111466583&limit=8&intent=complementary"
+                          ></div>
+
+                          <div className="custom-payment-options">
+                            <div>
+                              <p>Guaranteed safe checkout</p>
+                            </div>
+                            <div className="methods-of-payment">
+                              <img
+                                src="//drou-electronics-store.myshopify.com/cdn/shopifycloud/shopify/assets/payment_icons/amazon-92e856f82cae5a564cd0f70457f11af4d58fa037cf6e5ab7adf76f6fd3b9cafe.svg"
+                                height="35"
+                                alt="amazon payments"
+                              />
+                              <img
+                                src="//drou-electronics-store.myshopify.com/cdn/shopifycloud/shopify/assets/payment_icons/american_express-2264c9b8b57b23b0b0831827e90cd7bcda2836adc42a912ebedf545dead35b20.svg"
+                                height="35"
+                                alt="american express"
+                              />
+                              <img
+                                src="//drou-electronics-store.myshopify.com/cdn/shopifycloud/shopify/assets/payment_icons/apple_pay-f6db0077dc7c325b436ecbdcf254239100b35b70b1663bc7523d7c424901fa09.svg"
+                                height="35"
+                                alt="apple pay"
+                              />
+                              <img
+                                src="//drou-electronics-store.myshopify.com/cdn/shopifycloud/shopify/assets/payment_icons/bitcoin-e41278677541fc32b8d2e7fa41e61aaab2935151a6048a1d8d341162f5b93a0a.svg"
+                                height="35"
+                                alt="bitcoin"
+                              />
+                              <img
+                                src="//drou-electronics-store.myshopify.com/cdn/shopifycloud/shopify/assets/payment_icons/dankort-a92b320b417b7c123265e1e4fe134935ac76ec7e297be9b02a5ef76b182a29cc.svg"
+                                height="35"
+                                alt="dankort"
+                              />
+                              <img
+                                src="//drou-electronics-store.myshopify.com/cdn/shopifycloud/shopify/assets/payment_icons/google_pay-c66a29c63facf2053bf69352982c958e9675cabea4f2f7ccec08d169d1856b31.svg"
+                                height="35"
+                                alt="google pay"
+                              />
+                              <img
+                                src="//drou-electronics-store.myshopify.com/cdn/shopifycloud/shopify/assets/payment_icons/paypal-49e4c1e03244b6d2de0d270ca0d22dd15da6e92cc7266e93eb43762df5aa355d.svg"
+                                height="35"
+                                alt="paypal"
+                              />
+                              <img
+                                src="//drou-electronics-store.myshopify.com/cdn/shopifycloud/shopify/assets/payment_icons/visa-319d545c6fd255c9aad5eeaad21fd6f7f7b4fdbdb1a35ce83b89cca12a187f00.svg"
+                                height="35"
+                                alt="visa"
+                              />
+                            </div>
+                          </div>
+                          <div className="product-details-social tooltip-style-4">
+                            <span>
+                              {" "}
+                              <label>Share:</label>
+                            </span>
+
+                            <a
+                              aria-label="Facebook"
+                              className="facebook"
+                              target="_blank"
+                              href="//www.facebook.com/sharer.php?u=https://drou-electronics-store.myshopify.com/products/lphone-14-pro-max"
+                            >
+                              <i className="fab fa-facebook-f"></i>
+                            </a>
+                            <a
+                              aria-label="Twitter"
+                              className="twitter"
+                              target="_blank"
+                              href="//twitter.com/share?text=lPhone%2014%20pro%20max&amp;url=https://drou-electronics-store.myshopify.com/products/lphone-14-pro-max;source=webclient"
+                            >
+                              <i className="fab fa-twitter"></i>
+                            </a>
+
+                            <a
+                              aria-label="pinterest"
+                              className="pinterest"
+                              target="_blank"
+                              href="//pinterest.com/pin/create/button/?url=https://drou-electronics-store.myshopify.com/products/lphone-14-pro-max&amp;media=http://drou-electronics-store.myshopify.com/cdn/shop/products/p8_523c97c7-2aa2-47e8-8b17-5a3c05a66db3_1024x1024.jpg?v=1674275335&amp;description=lPhone%2014%20pro%20max"
+                            >
+                              <i className="fab fa-pinterest-p"></i>
+                            </a>
+                          </div>
                         </div>
-                      </div>
+                      </form>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -623,11 +622,7 @@ function DetailProduct() {
                           ></textarea>
                         </div>
                         <div className="col-lg-12 text-center">
-                          <button
-                            type="submit"
-                            value="submit"
-                            className="pro-cart"
-                          ></button>
+                          <button className="pro-cart"></button>
                         </div>
                       </div>
                     </form>
@@ -654,27 +649,16 @@ function DetailProduct() {
                           data-toggle="tab"
                           role="tab"
                           className="active"
-                          aria-selected="true"
                         >
                           Description
                         </a>
                         <a href="#pro-review" data-toggle="tab" role="tab">
                           Reviews
                         </a>
-                        <a
-                          href="#custom-tab-1"
-                          data-toggle="tab"
-                          role="tab"
-                          aria-selected="false"
-                        >
+                        <a href="#custom-tab-1" data-toggle="tab" role="tab">
                           Size Chart
                         </a>
-                        <a
-                          href="#custom-tab-2"
-                          data-toggle="tab"
-                          role="tab"
-                          aria-selected="false"
-                        >
+                        <a href="#custom-tab-2" data-toggle="tab" role="tab">
                           Shipping Policy
                         </a>
                       </div>
@@ -770,7 +754,7 @@ function DetailProduct() {
                                       <a
                                         href="#"
                                         className="spr-summary-actions-newreview"
-                                        onclick="SPR.toggleForm(6852111466583);return false"
+                                        onClick={console.log(1)}
                                       >
                                         Write a review
                                       </a>
@@ -782,7 +766,6 @@ function DetailProduct() {
                                   <div
                                     className="spr-form"
                                     id="form_6852111466583"
-                                    style={{ display: "none" }}
                                   ></div>
                                   <div
                                     className="spr-reviews"
@@ -844,13 +827,7 @@ function DetailProduct() {
 
               <div className="testimonial-active-3 nav-style-2-modify-1 dot-style-1 dot-style-1-center dot-style-1-mt1 d-flex mt-5">
                 <div className="testimonial-plr-1">
-                  <div
-                    className="single-testimonial "
-                    style={{
-                      backgroundColor: "#f8f8f8",
-                      backgroundImage: "none",
-                    }}
-                  >
+                  <div className="single-testimonial ">
                     <h4>Great quality!</h4>
 
                     <p>
@@ -868,13 +845,7 @@ function DetailProduct() {
                 </div>
 
                 <div className="testimonial-plr-1">
-                  <div
-                    className="single-testimonial "
-                    style={{
-                      backgroundColor: "#f8f8f8",
-                      backgroundImage: "none",
-                    }}
-                  >
+                  <div className="single-testimonial ">
                     <h4>Great quality!</h4>
 
                     <p>
@@ -892,13 +863,7 @@ function DetailProduct() {
                 </div>
 
                 <div className="testimonial-plr-1">
-                  <div
-                    className="single-testimonial "
-                    style={{
-                      backgroundColor: "#f8f8f8",
-                      backgroundImage: "none",
-                    }}
-                  >
+                  <div className="single-testimonial ">
                     <h4>Great quality!</h4>
 
                     <p>
@@ -938,4 +903,4 @@ function DetailProduct() {
   );
 }
 
-export default DetailProduct;
+export default Detail;

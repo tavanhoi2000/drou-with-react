@@ -604,3 +604,6 @@ slick-slider {
   justify-content: center;
   margin-top: 20px;
 }
+#productSelect {
+  display: none;
+}

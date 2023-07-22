@@ -1,6 +1,18 @@
 import "./shop.css";
 import { shopProducts } from "../../../data";
+import { useState } from "react";
+import {Link} from 'react-router-dom'
 function Shop() {
+  const [filteredList, setFilteredList] = useState(shopProducts);
+  const filterBySearch = (event) => {
+    const query = event.target.value;
+    var updateList = [...shopProducts];
+    updateList = updateList.filter(
+      (item) => item.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
+    );
+
+    setFilteredList(updateList);
+  };
   return (
     <main>
       <div
@@ -23,7 +35,7 @@ function Shop() {
                         </button>
                       </div>
                       <span className="show-items">
-                        Showing 1 - 9 of {shopProducts.length} result
+                        Showing 1 - 9 of {filteredList.length} result
                       </span>
                       <div className="main-toolbar-sorter clearfix">
                         <div className="toolbar-sorter d-md-flex align-items-center">
@@ -62,12 +74,15 @@ function Shop() {
                 <div className="shop-grid">
                   <div className="product-grid-view">
                     <div className="row">
-                      {shopProducts.map((item, index) => (
-                        <div className="col-lg-4 col-md-4 col-sm-6 col-12" key={index}>
+                      {filteredList.map((item) => (
+                        <div
+                          className="col-lg-4 col-md-4 col-sm-6 col-12"
+                          key={item.id}
+                        >
                           <div className="single-product-wrap 40092812050519">
                             <div className="product-img-action-wrap mb-20">
                               <div className="product-img product-img-zoom">
-                                <a href="/collections/all/products/drosafe-chargers">
+                                <Link to={`/shop/${item.id}`}>
                                   <img
                                     className="popup_cart_image default-img"
                                     src={item.img}
@@ -79,12 +94,12 @@ function Shop() {
                                     src={item.subImg}
                                     alt={item.name}
                                   />
-                                </a>
+                                </Link>
                               </div>
 
                               <div className="product-action-1">
                                 <button
-                                  onclick="Shopify.addItem(40092812050519, 1); return false;"
+                                  onClick={() => console.log(1)}
                                   aria-label="Add To Cart"
                                 >
                                   <i className="far fa-shopping-bag"></i>
@@ -93,10 +108,8 @@ function Shop() {
                                 <span className="nrb_wlist">
                                   <a
                                     title=""
-                                    aria-label="Add To Wishlist"
                                     className="action-wishlist wishlist-btn wishlist"
-                                    href="javascript: void(0)"
-                                    data-product-handle="drosafe-chargers"
+                                    href=""
                                   >
                                     <span className="add-wishlist">
                                       <i className="far fa-heart"></i>
@@ -109,11 +122,7 @@ function Shop() {
                                     </span>
                                   </a>
                                 </span>
-                                <button
-                                  className="compare compare_btn"
-                                  data-pid="drosafe-chargers"
-                                  aria-label="Compare"
-                                >
+                                <button className="compare compare_btn">
                                   <i className="far fa-signal"></i>
                                 </button>
                               </div>
@@ -122,12 +131,11 @@ function Shop() {
                             <div className="product-content-wrap">
                               <span
                                 className="shopify-product-reviews-badge"
-                                data-id="6852111237207"
                               ></span>
                               <h2>
-                                <a href="/collections/all/products/drosafe-chargers">
+                                <Link to={`/shop/${item.id}`}>
                                   {item.name}
-                                </a>
+                                </Link>
                               </h2>
                               <div className="product-price">
                                 <span className="price">
@@ -191,12 +199,12 @@ function Shop() {
 
                     <div className="search-style-3">
                       <form action="/search" method="get" role="search">
-                        <input type="hidden" name="type" />
                         <input
                           type="search"
                           name="q"
                           placeholder="Search our store "
                           aria-label="Search our store "
+                          onChange={filterBySearch}
                         />
                         <button type="submit">
                           <i className="far fa-search"></i>{" "}
