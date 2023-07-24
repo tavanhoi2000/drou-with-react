@@ -131,84 +131,93 @@ export const popularProducts = [
 
 export const blogEvents = [
   {
-    img: 'images/blog_event_1.jpg',
+    img: "images/blog_event_1.jpg",
     title: "Music magnate headphones",
-    date: 'January 21, 2023'
+    date: "January 21, 2023",
   },
   {
-    img: 'images/blog_event_2.jpg',
+    img: "images/blog_event_2.jpg",
     title: "Music magnate headphones",
-    date: 'July 18, 2023'
+    date: "July 18, 2023",
   },
   {
-    img: 'images/blog_1.jpg',
+    img: "images/blog_1.jpg",
     title: "Music magnate headphones",
-    date: 'March 21, 2023'
+    date: "March 21, 2023",
   },
 ];
 
 export const shopProducts = [
   {
-    name: 'Drou watch ultra',
-    img: 'images/cate_6.jpg',
-    subImg: 'images/cate_5.jpg',
+    id: 1,
+    name: "Drou watch ultra",
+    img: "images/cate_6.jpg",
+    subImg: "images/cate_5.jpg",
     beforePrice: 85,
-    afterPrice: 70
+    afterPrice: 70,
   },
   {
-    name: 'DrouPods max',
-    img: 'images/cate_3.jpg',
-    subImg: 'images/cate_10.jpg',
+    id: 2,
+    name: "DrouPods max",
+    img: "images/cate_3.jpg",
+    subImg: "images/cate_10.jpg",
     beforePrice: 55,
-    afterPrice: 75
+    afterPrice: 75,
   },
   {
-    name: 'Iphone 13 white color',
-    img: 'images/cate_7.jpg',
-    subImg: 'images/cate_9.jpg',
+    id: 3,
+    name: "Iphone 13 white color",
+    img: "images/cate_7.jpg",
+    subImg: "images/cate_9.jpg",
     beforePrice: null,
-    afterPrice: 999
+    afterPrice: 999,
   },
   {
-    name: 'Iphone 14',
-    img: 'images/cate_8.jpg',
-    subImg: 'images/cate_7.jpg',
+    id: 4,
+    name: "Iphone 14",
+    img: "images/cate_8.jpg",
+    subImg: "images/cate_7.jpg",
     beforePrice: 130,
-    afterPrice: 110
+    afterPrice: 110,
   },
   {
-    name: 'Droubook space gray',
-    img: 'images/cate_11.jpg',
-    subImg: 'images/cate_12.jpg',
+    id: 5,
+    name: "Droubook space gray",
+    img: "images/cate_11.jpg",
+    subImg: "images/cate_12.jpg",
     beforePrice: null,
-    afterPrice: 80
+    afterPrice: 80,
   },
   {
-    name: 'DrouPods Pro white',
-    img: 'images/cate_5.jpg',
-    subImg: 'images/sub_product_1.jpg',
+    id: 6,
+    name: "DrouPods Pro white",
+    img: "images/cate_5.jpg",
+    subImg: "images/sub_product_1.jpg",
     beforePrice: null,
-    afterPrice: 39
+    afterPrice: 39,
   },
   {
-    name: 'Homepod mini 2022',
-    img: 'images/cate_1.jpg',
-    subImg: 'images/cate_13.jpg',
+    id: 7,
+    name: "Homepod mini 2022",
+    img: "images/cate_1.jpg",
+    subImg: "images/cate_13.jpg",
     beforePrice: 60,
-    afterPrice: 39
+    afterPrice: 39,
   },
   {
-    name: 'Home Entertainment',
-    img: 'images/cate_14.jpg',
-    subImg: 'images/cate_15.jpg',
+    id: 8,
+    name: "Home Entertainment",
+    img: "images/cate_14.jpg",
+    subImg: "images/cate_15.jpg",
     beforePrice: 85,
-    afterPrice: 70
+    afterPrice: 70,
   },
   {
-    name: 'Drou watch ultra',
-    img: 'images/cate_6.jpg',
-    subImg: 'images/cate_8.jpg',
+    id: 9,
+    name: "Drou watch ultra",
+    img: "images/cate_6.jpg",
+    subImg: "images/cate_8.jpg",
     beforePrice: null,
-    afterPrice: 79
+    afterPrice: 79,
   },
-]
+];
