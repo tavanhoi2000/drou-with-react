@@ -1,15 +1,14 @@
 import "./detail.css";
 import { Link, useParams } from "react-router-dom";
-import Item from "../../../components/Item";
 import { shopProducts } from "../../../data";
 import { Carousel } from "react-responsive-carousel";
-import { useState } from "react";
+import { lazy, useState } from "react";
+const Item = lazy(() => import("../../../components/Item"));
 function Detail() {
   const [quantity, setQuantity] = useState(1);
-  const { shopId } = useParams()
-  const product = shopProducts.find((product) => product.id == shopId)
-  const { name, img, afterPrice } = product
-  console.log(img);
+  const { shopId } = useParams();
+  const product = shopProducts.find((product) => product.id == shopId);
+  const { name, img, afterPrice } = product;
   return (
     <main>
       <div
@@ -339,7 +338,6 @@ function Detail() {
                             <a
                               aria-label="Facebook"
                               className="facebook"
-                              target="_blank"
                               href="//www.facebook.com/sharer.php?u=https://drou-electronics-store.myshopify.com/products/lphone-14-pro-max"
                             >
                               <i className="fab fa-facebook-f"></i>
@@ -347,7 +345,6 @@ function Detail() {
                             <a
                               aria-label="Twitter"
                               className="twitter"
-                              target="_blank"
                               href="//twitter.com/share?text=lPhone%2014%20pro%20max&amp;url=https://drou-electronics-store.myshopify.com/products/lphone-14-pro-max;source=webclient"
                             >
                               <i className="fab fa-twitter"></i>
@@ -356,7 +353,6 @@ function Detail() {
                             <a
                               aria-label="pinterest"
                               className="pinterest"
-                              target="_blank"
                               href="//pinterest.com/pin/create/button/?url=https://drou-electronics-store.myshopify.com/products/lphone-14-pro-max&amp;media=http://drou-electronics-store.myshopify.com/cdn/shop/products/p8_523c97c7-2aa2-47e8-8b17-5a3c05a66db3_1024x1024.jpg?v=1674275335&amp;description=lPhone%2014%20pro%20max"
                             >
                               <i className="fab fa-pinterest-p"></i>
@@ -806,7 +802,7 @@ function Detail() {
             </div>
             <div className="list">
               <Carousel showThumbs={false} wrap-around="true">
-                <Item />
+                  <Item />
               </Carousel>
             </div>
           </div>

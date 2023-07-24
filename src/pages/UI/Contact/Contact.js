@@ -101,9 +101,6 @@ function Contact() {
           height="100%"
           title="map"
           className="absolute inset-0"
-          frameBorder={0}
-          marginHeight={0}
-          marginWidth={0}
         ></iframe>
 
         <div className="contact-from-area  padding-20-row-col wow tmFadeInUp">

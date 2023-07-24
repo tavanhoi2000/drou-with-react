@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import "./register.css";
+import { updateProfile } from "firebase/auth";
 import { useForm } from "react-hook-form";
 import { regexEmail, regexPassword } from "../../../components/regex";
 import { auth } from "../../../config/firebase";
@@ -15,12 +16,15 @@ function Register() {
   } = useForm();
   const createUser = async (data) => {
     try {
-      await createUserWithEmailAndPassword(
+      const createUser = await createUserWithEmailAndPassword(
         auth,
         data.email,
         data.password
-      ).then((res) => {
-        res.user.displayName = data.name;
+      )
+      await updateProfile(createUser.user, {
+        displayName: data.name
+      })
+      .then((res) => {
         toast.success("You have successfully registered", {
           position: "top-right",
           autoClose: 3000,
@@ -32,7 +36,7 @@ function Register() {
           theme: "light",
         });
         navigate("/login");
-      });
+      })
     } catch (error) {
       if (error.code === "auth/email-already-in-use") {
         toast.error(`Email đã tồn tại !`, {

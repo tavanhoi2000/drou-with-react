@@ -2,12 +2,15 @@ import "./Home.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import { categories } from "../../../data";
-import Item from "../../../components/Item";
-import Slider from "../../../components/Slider";
-import BannerSale from "../../../components/BannerSale";
-import PopularProducts from "../../../components/PopularProducts";
-import BlogItem from "../../../components/BlogItem";
 import { Link } from "react-router-dom";
+import { lazy } from "react";
+const Slider = lazy(() => import("../../../components/Slider"));
+const Item = lazy(() => import("../../../components/Item"));
+const BannerSale = lazy(() => import("../../../components/BannerSale"));
+const PopularProducts = lazy(() =>
+  import("../../../components/PopularProducts")
+);
+const BlogItem = lazy(() => import("../../../components/BlogItem"));
 function Home() {
   const breakpointsev = {
     700: {
@@ -19,7 +22,6 @@ function Home() {
       snapAlign: "start",
     },
   };
-
   return (
     <>
       <Slider />
@@ -35,14 +37,13 @@ function Home() {
             ))}
           </div>
         </div>
-
         <div className="featured_product box_content">
           <div className="inside row gap-4">
             <div className="item col-lg-6 col-sm-12">
               <div className="content">
                 <span className="category">Security Smart Camera</span>
                 <h3 className="price">Just Starting At $850</h3>
-                <button>Shop Now</button>
+                <Link to="/shop">Shop Now</Link>
               </div>
               <img src="images/sub-banner-1.jpg" alt="" />
             </div>
@@ -51,7 +52,7 @@ function Home() {
               <div className="content">
                 <span className="category">Entertainment & Games</span>
                 <h3 className="price">Just Starting at $850 Hurry up!</h3>
-                <button>Shop Now</button>
+                <Link to="/shop">Shop Now</Link>
               </div>
               <img src="images/sub-banner-2.jpg" alt="" />
             </div>

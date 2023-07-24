@@ -86,3 +86,49 @@ p:last-child {
   text-transform: uppercase;
   border-radius: 26px;
 }
+.login-form input, .nice-select.bootstrap-select {
+  background: #ebebeb none repeat scroll 0 0;
+  border: 1px solid #ebebeb;
+  border-radius: 0;
+  font-size: 14px;
+  height: auto;
+}
+input.input-full, textarea.input-full, select.input-full {
+  width: 100%;
+}
+input {
+  color: #737373;
+  padding-left: 10px;
+  padding: 9px 10px;
+}
+
+.login-btn {
+  background: #333 none repeat scroll 0 0;
+  border: medium none;
+  color: #fff;
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 10px 18px 8px;
+  text-transform: uppercase;
+}
+.login-toggle-btn a {
+  color: #333;
+  transition: all .3s ease 0s;
+}
+.form-action-button a {
+  float: right;
+  margin-top: 30px;
+}
+
+.list-login {
+  margin: 10px 0 ;
+}
+.list-login i{
+  font-size: 25px;
+}
+
+
+.list-login i:nth-child(2) {
+  margin: 0 20px;
+}

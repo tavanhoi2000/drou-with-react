@@ -1,5 +1,4 @@
 import { blogEvents } from "../data";
-
 function BlogItem() {
   return (
     <div className="d-flex justify-content-around pd-5">

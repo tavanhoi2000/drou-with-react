@@ -2,11 +2,25 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import "./login.css";
 import { auth } from "../../../config/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { useState } from "react";
-function Login({setUserLogin, isUserLogin}) {
-  const [error, setError] = useState(null)
+import {
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+  FacebookAuthProvider,
+  signInWithPopup,
+  GoogleAuthProvider,
+  TwitterAuthProvider,
+} from "firebase/auth";
+import { useState, useContext } from "react";
+import { AuthContext } from "../../../App";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+function Login() {
+  const isLogin = useContext(AuthContext);
+  const [error, setError] = useState(null);
+  let [isForgot, setIsForgot] = useState(null);
+  const [resetRequested, setResetRequested] = useState(false);
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
   const {
     register,
     handleSubmit,
@@ -17,21 +31,81 @@ function Login({setUserLogin, isUserLogin}) {
       await signInWithEmailAndPassword(auth, data.email, data.password).then(
         (res) => {
           if (res.operationType === "signIn") {
-          localStorage.setItem('token', res._tokenResponse.idToken)
-          isUserLogin = true
-           if(isUserLogin === true) {
-            return navigate('/')
-           }
+            localStorage.setItem("token", res._tokenResponse.idToken);
+            if (localStorage.getItem("token") !== null) {
+              isLogin[1](true);
+              return navigate("/");
+            } else {
+              toast.error(`Login fail`, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+            }
           }
         }
       );
     } catch (error) {
-      if(error.code === 'auth/user-not-found') {
-        setError("Tài khoản không tồn tại ! ")
-      }else if(error.code === 'auth/wrong-password') {
-        setError('Mật khâủ không chính xác!')
+      if (error.code === "auth/user-not-found") {
+        setError("Tài khoản không tồn tại ! ");
+      } else if (error.code === "auth/wrong-password") {
+        setError("Mật khâủ không chính xác!");
       }
     }
+  };
+  const handleResetPassword = async (e) => {
+    e.preventDefault();
+    try {
+      await sendPasswordResetEmail(auth, email);
+      setResetRequested(true);
+      setError("");
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+  const loginWithFacebook = () => {
+    const provider = new FacebookAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((res) => {
+        const user = res.user;
+        const credential = FacebookAuthProvider.credentialFromResult(res);
+        const accessToken = credential.accessToken;
+      })
+      .catch((error) => {
+        const errorCode = error.code
+        const errorMessage = error.message
+        console.log(errorCode, errorMessage);
+      });
+  };
+  const loginWithGoogle = () => {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((res) => {
+        if (res) {
+          localStorage.setItem("token", res.accessToken);
+          if (localStorage.getItem("token") !== null) {
+            isLogin[1](true);
+            return navigate("/");
+          }
+        }
+      })
+  };
+  const loginWithTwitter = () => {
+    const provider = new TwitterAuthProvider();
+    signInWithPopup(auth, provider).then((res) => {
+      if (res) {
+        localStorage.setItem("token", res.accessToken);
+        if (localStorage.getItem("token") !== null) {
+          isLogin[1](true);
+          navigate("/");
+        }
+      }
+    });
   };
   return (
     <main>
@@ -40,124 +114,172 @@ function Login({setUserLogin, isUserLogin}) {
           <div className="row">
             <div className="col-lg-6 offset-lg-3 col-md-8 offset-md-2">
               <div className="login-form">
-                <div id="CustomerLoginForm">
-                  <form id="customer_login" onSubmit={handleSubmit(onLogin)}>
-                    <div className="form-container">
-                      <div className="login-text">
-                        <h3 className="login-header">Login </h3>
-                        <p>Please login using account detail bellow.</p>
-                        <p className="text-danger">{error}</p>
+                {isForgot !== true ? (
+                  <div id="CustomerLoginForm">
+                    <form id="customer_login" onSubmit={handleSubmit(onLogin)}>
+                      <div className="form-container">
+                        <div className="login-text">
+                          <h3 className="login-header">Login </h3>
+                          <p>Please login using account detail bellow.</p>
+                          <p className="text-danger">{error}</p>
+                        </div>
+                        <div className="login-form-wrapper">
+                          <div className="form-group row">
+                            <label
+                              htmlFor="email"
+                              className="col-sm-3 col-form-label"
+                            >
+                              Email
+                            </label>
+                            <div className="col-sm-7">
+                              <input
+                                type="email"
+                                id="CustomerEmail"
+                                className="form-control "
+                                placeholder="Email"
+                                autoFocus
+                                {...register("email", { required: true })}
+                              />
+                              {errors.email && (
+                                <p className="text-danger">
+                                  {errors.email.type === "required"
+                                    ? "Không được để trống name "
+                                    : null}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                          <div className="form-group row">
+                            <label
+                              htmlFor="inputPassword"
+                              className="col-sm-3 col-form-label"
+                            >
+                              Password
+                            </label>
+                            <div className="col-sm-7">
+                              <input
+                                type="password"
+                                id="CustomerPassword"
+                                className="form-control "
+                                placeholder="Password"
+                                {...register("password", { required: true })}
+                              />
+                              {errors.password && (
+                                <p className="text-danger">
+                                  {errors.password.type === "required"
+                                    ? "Không được để trống password "
+                                    : null}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+
+                          <div className="login-toggle-btn">
+                            <div className="login-details text-center">
+                              <a
+                                href=""
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  setIsForgot(true);
+                                }}
+                                id="RecoverPassword"
+                              >
+                                Forgot your password?
+                              </a>
+
+                              <button className="login-btn">Sign In</button>
+                            </div>
+                            <div className="login-footer text-center">
+                              or
+                              <div className="list-login">
+                                <i
+                                  className="fa-brands fa-facebook-f text-primary"
+                                  onClick={loginWithFacebook}
+                                ></i>
+                                <i
+                                  className="fa-brands fa-google text-danger"
+                                  onClick={loginWithGoogle}
+                                ></i>
+                                <i
+                                  className="fa-brands fa-twitter text-info"
+                                  onClick={loginWithTwitter}
+                                ></i>
+                              </div>
+                              <p>
+                                <Link
+                                  to="/register"
+                                  id="customer_register_link"
+                                >
+                                  Create account
+                                </Link>
+                              </p>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                      <div className="login-form-wrapper">
-                        <div className="form-group row">
-                          <label
-                            htmlFor="email"
-                            className="col-sm-3 col-form-label"
-                          >
-                            Email
-                          </label>
-                          <div className="col-sm-7">
+                    </form>
+                  </div>
+                ) : (
+                  <div id="RecoverPasswordForm">
+                    <form>
+                      <div className="form-container">
+                        <div className="login-text">
+                          <h2>Reset your password</h2>
+                          <p>
+                            We will send you an email to reset your password.
+                          </p>
+                        </div>
+                        {resetRequested ? (
+                          <>
+                            <p>
+                              Password reset email sent. Please check your email
+                            </p>
+                            <a
+                              href=""
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setIsForgot(null);
+                              }}
+                            >
+                              Back to login
+                            </a>
+                          </>
+                        ) : (
+                          <div className="login-form-wrapper">
                             <input
                               type="email"
-                              id="CustomerEmail"
-                              className="form-control "
+                              name="email"
+                              id="RecoverEmail"
+                              className="input-full"
                               placeholder="Email"
-                              autoFocus
-                              {...register("email", { required: true })}
+                              onChange={(e) => setEmail(e.target.value)}
                             />
-                            {errors.email && (
-                              <p className="text-danger">
-                                {errors.email.type === "required"
-                                  ? "Không được để trống name "
-                                  : null}
-                              </p>
-                            )}
+                            <div className="login-toggle-btn">
+                              <div className="form-action-button">
+                                <button
+                                  type="submit"
+                                  className="login-btn"
+                                  onClick={(e) => handleResetPassword(e)}
+                                >
+                                  Submit
+                                </button>
+                                <a
+                                  href=""
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    setIsForgot(null);
+                                  }}
+                                >
+                                  Cancel
+                                </a>
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                        <div className="form-group row">
-                          <label
-                            htmlFor="inputPassword"
-                            className="col-sm-3 col-form-label"
-                          >
-                            Password
-                          </label>
-                          <div className="col-sm-7">
-                            <input
-                              type="password"
-                              id="CustomerPassword"
-                              className="form-control "
-                              placeholder="Password"
-                              {...register("password", { required: true })}
-                            />
-                            {errors.password && (
-                              <p className="text-danger">
-                                {errors.password.type === "required"
-                                  ? "Không được để trống password "
-                                  : null}
-                              </p>
-                            )}
-                          </div>
-                        </div>
-
-                        <div className="login-toggle-btn">
-                          <div className="login-details text-center mb-25">
-                            <a href="#recover" id="RecoverPassword">
-                              Forgot your password?
-                            </a>
-
-                            <button className="login-btn">Sign In</button>
-                          </div>
-                          <div className="login-footer text-center">
-                            <p>
-                              <Link
-                                to="/register"
-                                id="customer_register_link"
-                              >
-                                Create account
-                              </Link>
-                            </p>
-                          </div>
-                        </div>
+                        )}
                       </div>
-                    </div>
-                  </form>
-                </div>
-                <div id="RecoverPasswordForm" style={{ display: "none" }}>
-                  <form
-                    method="post"
-                    action="/account/recover"
-                    acceptCharset="UTF-8"
-                  >
-
-                    <div className="form-container">
-                      <div className="login-text">
-                        <h2>Reset your password</h2>
-                        <p>We will send you an email to reset your password.</p>
-                      </div>
-                      <div className="login-form-wrapper">
-                        <input
-                          type="email"
-                          name="email"
-                          id="RecoverEmail"
-                          className="input-full"
-                          placeholder="Email"
-                          autoCorrect="off"
-                          autoCapitalize="off"
-                        />
-                        <div className="login-toggle-btn">
-                          <div className="form-action-button">
-                            <button type="submit" className="login-btn">
-                              Submit
-                            </button>
-                            <a href="#" id="HideRecoverPasswordLink">
-                              Cancel
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                </div>
+                    </form>
+                  </div>
+                )}
               </div>
             </div>
           </div>
