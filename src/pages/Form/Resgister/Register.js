@@ -24,7 +24,6 @@ function Register() {
       await updateProfile(createUser.user, {
         displayName: data.name
       })
-      .then((res) => {
         toast.success("You have successfully registered", {
           position: "top-right",
           autoClose: 3000,
@@ -36,7 +35,7 @@ function Register() {
           theme: "light",
         });
         navigate("/login");
-      })
+      
     } catch (error) {
       if (error.code === "auth/email-already-in-use") {
         toast.error(`Email đã tồn tại !`, {

@@ -4,6 +4,7 @@ import { auth } from "../../config/firebase";
 import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { getToken, removeToken } from '../../hooks'
 function Header() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
@@ -16,12 +17,13 @@ function Header() {
       }
     });
     return () => userLogin;
-  }, []);
+  }, [user]);
   const logout = () => {
     signOut(auth).then(() => {
-      localStorage.removeItem("token");
-      navigate("/login");
-    });
+      removeToken('token')
+      return navigate("/login");
+    })
+      
   };
 
     return (
@@ -42,7 +44,7 @@ function Header() {
             <ul>
               
               <li> USD </li> |
-              {localStorage.getItem('token') ? (
+              {user && getToken('token') ? (
                 <ul>
                   <li>Hello: 
                     <Link to="/profile"> {user.displayName}</Link>
