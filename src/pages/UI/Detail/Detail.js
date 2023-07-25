@@ -2,8 +2,8 @@ import "./detail.css";
 import { Link, useParams } from "react-router-dom";
 import { shopProducts } from "../../../data";
 import { Carousel } from "react-responsive-carousel";
-import { lazy, useState } from "react";
-const Item = lazy(() => import("../../../components/Item"));
+import {  useState } from "react";
+import Item from '../../../components/Item'
 function Detail() {
   const [quantity, setQuantity] = useState(1);
   const { shopId } = useParams();
@@ -802,6 +802,7 @@ function Detail() {
             </div>
             <div className="list">
               <Carousel showThumbs={false} wrap-around="true">
+                  {" "}
                   <Item />
               </Carousel>
             </div>
@@ -889,7 +890,7 @@ function Detail() {
             </div>
             <div className="list ">
               <Carousel showThumbs={false} wrap-around="true">
-                <Item />
+                  <Item />
               </Carousel>
             </div>
           </div>

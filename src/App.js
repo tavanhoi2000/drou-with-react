@@ -1,3 +1,4 @@
+import AuthProvider from "./context/AuthContext";
 import Home from "./pages/UI/Home/Home";
 import Header from "./layout/header/Header";
 import Shop from "./pages/UI/Shop/Shop";
@@ -6,15 +7,13 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Register from "./pages/Form/Resgister/Register";
 import Contact from "./pages/UI/Contact/Contact";
 import { ToastContainer } from "react-toastify";
-import { createContext, lazy, useState } from "react";
+import { lazy } from "react";
 import Detail from "./pages/UI/Detail/Detail";
 import Error from "./pages/UI/Errors/Error";
 const Footer = lazy(() => import("./layout/footer/Footer"));
-export const AuthContext = createContext();
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(null);
   return (
-    <AuthContext.Provider value={[isLoggedIn, setIsLoggedIn]}>
+    <AuthProvider>
       <Router>
         <div className="app">
           <ToastContainer />
@@ -31,7 +30,7 @@ function App() {
           <Footer />
         </div>
       </Router>
-    </AuthContext.Provider>
+    </AuthProvider>
   );
 }
 

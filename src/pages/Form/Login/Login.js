@@ -1,21 +1,23 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import "./login.css";
-import { auth } from "../../../config/firebase";
+import {
+  auth,
+  GoogleProvider,
+  FacebookProvider,
+  GithubProvider,
+} from "../../../config/firebase";
 import {
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
-  FacebookAuthProvider,
   signInWithPopup,
-  GoogleAuthProvider,
-  TwitterAuthProvider,
+  updateProfile,
 } from "firebase/auth";
-import { useState, useContext } from "react";
-import { AuthContext } from "../../../App";
+import { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { getToken, setToken } from "../../../hooks";
 function Login() {
-  const isLogin = useContext(AuthContext);
   const [error, setError] = useState(null);
   let [isForgot, setIsForgot] = useState(null);
   const [resetRequested, setResetRequested] = useState(false);
@@ -28,33 +30,33 @@ function Login() {
   } = useForm();
   const onLogin = async (data) => {
     try {
-      await signInWithEmailAndPassword(auth, data.email, data.password).then(
-        (res) => {
-          if (res.operationType === "signIn") {
-            localStorage.setItem("token", res._tokenResponse.idToken);
-            if (localStorage.getItem("token") !== null) {
-              isLogin[1](true);
-              return navigate("/");
-            } else {
-              toast.error(`Login fail`, {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-              });
-            }
-          }
-        }
+      const res = await signInWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
       );
+      if (res) {
+        setToken("token", res.user.accessToken);
+        if (getToken("token") !== null) {
+          return navigate("/");
+        } else {
+          toast.error(`Login fail`, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        }
+      }
     } catch (error) {
       if (error.code === "auth/user-not-found") {
-        setError("Tài khoản không tồn tại ! ");
+        setError("Tài khoản không chính xác!");
       } else if (error.code === "auth/wrong-password") {
-        setError("Mật khâủ không chính xác!");
+        setError("Mật khẩu không chính xác!");
       }
     }
   };
@@ -69,43 +71,36 @@ function Login() {
     }
   };
   const loginWithFacebook = () => {
-    const provider = new FacebookAuthProvider();
-    signInWithPopup(auth, provider)
-      .then((res) => {
-        const user = res.user;
-        const credential = FacebookAuthProvider.credentialFromResult(res);
-        const accessToken = credential.accessToken;
-      })
-      .catch((error) => {
-        const errorCode = error.code
-        const errorMessage = error.message
-        console.log(errorCode, errorMessage);
-      });
-  };
-  const loginWithGoogle = () => {
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
+    signInWithPopup(auth, FacebookProvider)
       .then((res) => {
         if (res) {
-          localStorage.setItem("token", res.accessToken);
-          if (localStorage.getItem("token") !== null) {
-            isLogin[1](true);
+          setToken("token", res.user.accessToken);
+          if (getToken("token") !== null) {
             return navigate("/");
           }
         }
       })
+      .catch((error) => {});
   };
-  const loginWithTwitter = () => {
-    const provider = new TwitterAuthProvider();
-    signInWithPopup(auth, provider).then((res) => {
+  const loginWithGoogle = () => {
+    signInWithPopup(auth, GoogleProvider).then((res) => {
       if (res) {
-        localStorage.setItem("token", res.accessToken);
-        if (localStorage.getItem("token") !== null) {
-          isLogin[1](true);
-          navigate("/");
+        setToken("token", res.user.accessToken);
+        if (getToken("token") !== null) {
+          return navigate("/");
         }
       }
     });
+  };
+  const loginWithGithub = async () => {
+    const res = await signInWithPopup(auth, GithubProvider);
+    console.log(res);
+    if (res) {
+      setToken("token", res.user.accessToken);
+      if (getToken("token") !== null) {
+        return navigate("/");
+      }
+    }
   };
   return (
     <main>
@@ -201,8 +196,8 @@ function Login() {
                                   onClick={loginWithGoogle}
                                 ></i>
                                 <i
-                                  className="fa-brands fa-twitter text-info"
-                                  onClick={loginWithTwitter}
+                                  className="fa-brands fa-github"
+                                  onClick={loginWithGithub}
                                 ></i>
                               </div>
                               <p>

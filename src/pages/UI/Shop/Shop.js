@@ -1,7 +1,8 @@
 import "./shop.css";
 import { shopProducts } from "../../../data";
-import { useState } from "react";
+import { useState,lazy,Suspense } from "react";
 import {Link} from 'react-router-dom'
+const Breadcrumb = lazy(() => import('../../../components/Breadcrumb'))
 function Shop() {
   const [filteredList, setFilteredList] = useState(shopProducts);
   const filterBySearch = (event) => {
@@ -10,11 +11,14 @@ function Shop() {
     updateList = updateList.filter(
       (item) => item.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
     );
-
     setFilteredList(updateList);
   };
   return (
     <main>
+     
+      <Suspense>
+      <Breadcrumb />
+      </Suspense>
       <div
         id="shopify-section-template--14772521828439__main"
         className="shopify-section"

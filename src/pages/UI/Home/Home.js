@@ -1,9 +1,9 @@
-import "./Home.css";
+import "./home.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import { categories } from "../../../data";
 import { Link } from "react-router-dom";
-import { lazy } from "react";
+import { lazy, Suspense } from "react";
 const Slider = lazy(() => import("../../../components/Slider"));
 const Item = lazy(() => import("../../../components/Item"));
 const BannerSale = lazy(() => import("../../../components/BannerSale"));
@@ -24,7 +24,9 @@ function Home() {
   };
   return (
     <>
-      <Slider />
+      <Suspense>
+        <Slider />
+      </Suspense>
       <div className="container">
         <div className="categories box_content">
           <h3>Trending Categories</h3>
@@ -68,14 +70,21 @@ function Home() {
           </div>
           <div className="list">
             <Carousel showThumbs={false} wrap-around="true">
-              <Item />
+              <Suspense>
+                <Item />
+              </Suspense>
             </Carousel>
           </div>
         </div>
-        <BannerSale />
+        <Suspense>
+          <BannerSale />
+        </Suspense>
 
         <div className="container">
-          <PopularProducts />
+          <Suspense>
+            {" "}
+            <PopularProducts />
+          </Suspense>
           <div className="blog_event box_content">
             <div className="head">
               <h3 className="title">Blog & Events</h3>
@@ -90,7 +99,9 @@ function Home() {
                 wrap-around={true}
                 className="mt-5"
               >
-                <BlogItem />
+                <Suspense>
+                  <BlogItem />
+                </Suspense>
               </Carousel>
             </div>
           </div>
