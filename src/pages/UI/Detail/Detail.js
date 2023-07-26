@@ -1,14 +1,45 @@
 import "./detail.css";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { shopProducts } from "../../../data";
 import { Carousel } from "react-responsive-carousel";
-import {  useState } from "react";
-import Item from '../../../components/Item'
+import { useRef, useState } from "react";
+import Item from "../../../components/Item";
+import { getToken, setToken } from "../../../hooks";
+import { toast } from "react-toastify";
 function Detail() {
-  const [quantity, setQuantity] = useState(1);
+  let [quantity, setQuantity] = useState(1);
   const { shopId } = useParams();
   const product = shopProducts.find((product) => product.id == shopId);
   const { name, img, afterPrice } = product;
+  const [productCart, setProductCart] = useState([])
+  const refQuantity = useRef();
+  const navigate = useNavigate();
+  const addToCart = (e) => {
+    if (getToken("token") !== null) {
+      e.preventDefault();
+      setProductCart(pre => {
+        const products = [...pre, product]
+        const jsonProduct = JSON.stringify(products)
+        setToken('products', jsonProduct)
+        return products
+      })
+      console.log(productCart);
+      
+      toast.success("You added to card", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      navigate("/shop");
+    } else {
+      navigate("/login");
+    }
+  };
   return (
     <main>
       <div
@@ -46,7 +77,7 @@ function Detail() {
                             >
                               <img
                                 src="//drou-electronics-store.myshopify.com/cdn/shop/products/p8_523c97c7-2aa2-47e8-8b17-5a3c05a66db3.jpg?v=1674275335"
-                                alt="lPhone 14 pro max"
+                                alt={name}
                               />
                             </a>
                             <a
@@ -55,7 +86,7 @@ function Detail() {
                             >
                               <img
                                 src="//drou-electronics-store.myshopify.com/cdn/shop/products/p7_36d931d4-1ef2-4c82-9a65-80426fb77f21.jpg?v=1674275335"
-                                alt="lPhone 14 pro max"
+                                alt={name}
                               />
                             </a>
                             <a
@@ -64,7 +95,7 @@ function Detail() {
                             >
                               <img
                                 src="//drou-electronics-store.myshopify.com/cdn/shop/products/p3_d18efad6-a918-44d9-9659-eac65cbb0fb9.jpg?v=1674275335"
-                                alt="lPhone 14 pro max"
+                                alt={name}
                               />
                             </a>
                           </div>
@@ -130,16 +161,16 @@ function Detail() {
                               className="product-single__variants"
                               defaultValue={1}
                             >
-                              <option selected data-sku="111">
+                              <option value={1} data-sku="111">
                                 red - <span className="money">$999.00 USD</span>
                               </option>
 
-                              <option data-sku="112">
+                              <option value={2} data-sku="112">
                                 green -{" "}
                                 <span className="money">$999.00 USD</span>
                               </option>
 
-                              <option data-sku="113">
+                              <option value={3} data-sku="113">
                                 blue -{" "}
                                 <span className="money">$999.00 USD</span>
                               </option>
@@ -153,7 +184,6 @@ function Detail() {
                                     id="swatch-0-red"
                                     type="radio"
                                     name="option-0"
-                                    checked
                                   />
 
                                   <label
@@ -215,7 +245,7 @@ function Detail() {
                                 <div className="pro-qty d-inline-block mx-0 pt-0">
                                   <span
                                     className="dec"
-                                    onClick={() => setQuantity(quantity - 1)}
+                                    onClick={() => setQuantity(quantity--)}
                                   >
                                     -
                                   </span>
@@ -223,11 +253,15 @@ function Detail() {
                                     type="text"
                                     name="quantity"
                                     totalqty="11"
-                                    defaultValue={quantity}
+                                    onChange={(e) =>
+                                      setQuantity(e.target.value)
+                                    }
+                                    value={quantity}
+                                    ref={refQuantity}
                                   />
                                   <span
                                     className="inc"
-                                    onClick={() => setQuantity(quantity + 1)}
+                                    onClick={() => setQuantity(quantity++)}
                                   >
                                     +
                                   </span>
@@ -239,6 +273,7 @@ function Detail() {
                                 type="submit"
                                 className="pro-cart"
                                 id="AddToCart"
+                                onClick={(e) => addToCart(e)}
                               >
                                 <span>
                                   <span
@@ -750,7 +785,7 @@ function Detail() {
                                       <a
                                         href="#"
                                         className="spr-summary-actions-newreview"
-                                        onClick={console.log(1)}
+                                        // onClick={console.log(1)}
                                       >
                                         Write a review
                                       </a>
@@ -802,8 +837,8 @@ function Detail() {
             </div>
             <div className="list">
               <Carousel showThumbs={false} wrap-around="true">
-                  {" "}
-                  <Item />
+                {" "}
+                <Item />
               </Carousel>
             </div>
           </div>
@@ -890,7 +925,7 @@ function Detail() {
             </div>
             <div className="list ">
               <Carousel showThumbs={false} wrap-around="true">
-                  <Item />
+                <Item />
               </Carousel>
             </div>
           </div>

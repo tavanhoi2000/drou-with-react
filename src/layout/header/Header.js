@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import "./Header.scss";
+import "./header.scss";
 import { auth } from "../../config/firebase";
 import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
@@ -90,10 +90,11 @@ function Header() {
             <div className="nav__items d-flex justify-content-around">
               <i className="fa-solid fa-magnifying-glass"></i>
               <i className="fa-regular fa-heart" />
-              <i className="fa-solid fa-bag-shopping"></i>
+              <Link to='/cart'><i className="fa-solid fa-bag-shopping"></i></Link>
             </div>
           </nav>
         </div>
+        <hr/>
       </>
     );
   }

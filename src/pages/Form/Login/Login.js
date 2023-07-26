@@ -11,7 +11,6 @@ import {
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
   signInWithPopup,
-  updateProfile,
 } from "firebase/auth";
 import { useState } from "react";
 import { toast } from "react-toastify";
@@ -94,7 +93,6 @@ function Login() {
   };
   const loginWithGithub = async () => {
     const res = await signInWithPopup(auth, GithubProvider);
-    console.log(res);
     if (res) {
       setToken("token", res.user.accessToken);
       if (getToken("token") !== null) {

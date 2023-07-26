@@ -5,7 +5,7 @@ function Breadcrumb() {
   useEffect(() => {
     const url = window.location.pathname;
     const path = url.split("/");
-    const newBreadcrumbItem = ["Home/"]
+    const newBreadcrumbItem = ["Home /"]
     for (let i = 0; i < path.length; i++) {
       if (path[i] !== "") {
         newBreadcrumbItem.push(path[i])
