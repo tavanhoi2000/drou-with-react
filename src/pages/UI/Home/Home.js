@@ -22,6 +22,7 @@ function Home() {
       snapAlign: "start",
     },
   };
+
   return (
     <>
       <Suspense>

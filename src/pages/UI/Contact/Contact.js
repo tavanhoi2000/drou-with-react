@@ -1,6 +1,8 @@
 import { useForm } from "react-hook-form";
 import { regexEmail } from "../../../components/regex";
 import "./contact.css";
+import { lazy, Suspense } from "react";
+const Breadcrumb = lazy(() => import("../../../components/Breadcrumb"));
 function Contact() {
   const {
     register,
@@ -13,6 +15,10 @@ function Contact() {
   }
   return (
     <main>
+      <Suspense>
+        <Breadcrumb />
+      </Suspense>
+
       <div
         id="shopify-section-template--14772521992279__contact_details"
         className="shopify-section"

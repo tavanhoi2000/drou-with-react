@@ -1,5 +1,6 @@
-const getToken = (token) => localStorage.getItem(token);
-const removeToken = (token) => localStorage.removeItem(token)
-const setToken =(token, value) => localStorage.setItem(token, value)
+const getToken = (key) => localStorage.getItem(key);
+const removeToken = (key) => localStorage.removeItem(key)
+const setToken =(key, value) => localStorage.setItem(key, value)
+
 
 export { getToken, removeToken, setToken };
