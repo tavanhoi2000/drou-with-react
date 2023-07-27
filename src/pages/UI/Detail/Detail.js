@@ -1,47 +1,73 @@
 import "./detail.css";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { shopProducts } from "../../../data";
 import { Carousel } from "react-responsive-carousel";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Item from "../../../components/Item";
-import { getToken, setToken } from "../../../hooks";
+import { getToken } from "../../../hooks";
 import { toast } from "react-toastify";
+import Breadcrumb from "../../../components/Breadcrumb";
+import {
+  cartItemCollection,
+  productCollectionRef,
+} from "../../../config/firebase";
+import { getDocs, addDoc } from "firebase/firestore";
 function Detail() {
   let [quantity, setQuantity] = useState(1);
   const { shopId } = useParams();
-  const product = shopProducts.find((product) => product.id == shopId);
-  const { name, img, afterPrice } = product;
-  const [productCart, setProductCart] = useState([])
+  const [listProduct, setListProduct] = useState([]);
+  const getListProduct = async () => {
+    try {
+      const data = await getDocs(productCollectionRef);
+      const filteredData = data.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setListProduct(filteredData);
+    } catch (error) {}
+  };
+  useEffect(() => {
+    getListProduct();
+  }, []);
+  const product = listProduct.find((product) => product.id === shopId);
   const refQuantity = useRef();
   const navigate = useNavigate();
-  const addToCart = (e) => {
-    if (getToken("token") !== null) {
-      e.preventDefault();
-      setProductCart(pre => {
-        const products = [...pre, product]
-        const jsonProduct = JSON.stringify(products)
-        setToken('products', jsonProduct)
-        return products
-      })
-      console.log(productCart);
-      
-      toast.success("You added to card", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-      navigate("/shop");
-    } else {
-      navigate("/login");
-    }
+  const addToCart = async (e) => {
+    e.preventDefault();
+    try {
+      if (getToken("token") !== null) {
+        await addDoc(cartItemCollection, product);
+        toast.success("You added to card", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        navigate("/shop");
+      } else {
+        toast.error("Please login", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        navigate("/login");
+      }
+    } catch (error) {}
   };
+  if (!product) {
+    return <p>loading...</p>;
+  }
   return (
     <main>
+      <Breadcrumb />
       <div
         id="shopify-section-template--14837292236887__product-template"
         className="shopify-section"
@@ -62,42 +88,32 @@ function Detail() {
                           <img
                             id="ProductPhotoImg"
                             className="product-zoom product_variant_image"
-                            alt={name}
-                            src={img}
+                            alt={product.name}
+                            src={window.location.origin + "/" + product.images}
                           />
                         </div>
+
                         <div
                           id="ProductThumbs"
                           className="product-thumbnail active_thumb_carousel owl-carousel"
                         >
                           <div className="d-flex sub-product">
-                            <a
-                              className="product-single__thumbnail active"
-                              href=""
-                            >
-                              <img
-                                src="//drou-electronics-store.myshopify.com/cdn/shop/products/p8_523c97c7-2aa2-47e8-8b17-5a3c05a66db3.jpg?v=1674275335"
-                                alt={name}
-                              />
-                            </a>
-                            <a
-                              className="product-single__thumbnail "
-                              href="//drou-electronics-store.myshopify.com/cdn/shop/products/p7_36d931d4-1ef2-4c82-9a65-80426fb77f21_1024x1024.jpg?v=1674275335"
-                            >
-                              <img
-                                src="//drou-electronics-store.myshopify.com/cdn/shop/products/p7_36d931d4-1ef2-4c82-9a65-80426fb77f21.jpg?v=1674275335"
-                                alt={name}
-                              />
-                            </a>
-                            <a
-                              className="product-single__thumbnail "
-                              href="//drou-electronics-store.myshopify.com/cdn/shop/products/p3_d18efad6-a918-44d9-9659-eac65cbb0fb9_1024x1024.jpg?v=1674275335"
-                            >
-                              <img
-                                src="//drou-electronics-store.myshopify.com/cdn/shop/products/p3_d18efad6-a918-44d9-9659-eac65cbb0fb9.jpg?v=1674275335"
-                                alt={name}
-                              />
-                            </a>
+                            {product.listDetail.map((item, index) => (
+                              <a
+                                className="product-single__thumbnail"
+                                href=""
+                                key={index}
+                              >
+                                <img
+                                  src={window.location.origin + "/" + item}
+                                  alt={product.name}
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    product.images = item;
+                                  }}
+                                />
+                              </a>
+                            ))}
                           </div>
                         </div>
                       </div>
@@ -111,7 +127,7 @@ function Detail() {
                         encType="multipart/form-data"
                       >
                         <div className="product-details xxx">
-                          <h3 id="popup_cart_title">{name}</h3>
+                          <h3 id="popup_cart_title">{product.name}</h3>
 
                           <div className="product-variant-inventory">
                             <span className="inventory-title">
@@ -139,7 +155,9 @@ function Detail() {
                           <div className="pro-thumb-price mt-10">
                             <p className="d-flex align-items-center">
                               <span id="ProductPrice" className="price">
-                                <span className="money">${afterPrice}.00</span>
+                                <span className="money">
+                                  ${product.price}.00
+                                </span>
                               </span>
                             </p>
                           </div>
@@ -785,7 +803,6 @@ function Detail() {
                                       <a
                                         href="#"
                                         className="spr-summary-actions-newreview"
-                                        // onClick={console.log(1)}
                                       >
                                         Write a review
                                       </a>

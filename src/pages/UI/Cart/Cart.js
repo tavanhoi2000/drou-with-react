@@ -1,31 +1,55 @@
-import { getToken,removeToken } from "../../../hooks";
 import { useState, useEffect, lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import SelectDatePicker from "../../../components/DatePicker";
 import { getAllCities } from "../../../services";
 import "./cart.css";
+import { db,cartItemCollection } from "../../../config/firebase";
+import { getDocs, deleteDoc, doc } from "firebase/firestore";
 const Breadcrumb = lazy(() => import("../../../components/Breadcrumb"));
 function Cart() {
   const [listCities, setListCities] = useState([]);
   const [isDisable, setDisable] = useState(true);
-  const [products, setproducts] = useState([])
-  const removeProductCart = (e) => {
-    removeToken('products')
-  }
+  const [listCartItem, setListCartITem] = useState([]);
+  const getListCartItem = async () => {
+    try {
+      const data = await getDocs(cartItemCollection);
+      const filteredData = data.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setListCartITem(filteredData);
+    } catch (error) {}
+  };
+
+  const removeProductCart = async (id) => {
+    try {
+      const cartItemDoc = doc(db, "cartItem", id);
+      await deleteDoc(cartItemDoc);
+      toast.success("You deleted to card", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } catch (error) {}
+  };
   useEffect(() => {
     const cities = async () => {
       const data = await getAllCities();
       setListCities(data.data);
     };
     cities();
-    const product = getToken('products')
-    const data = product ? JSON.parse(product) : []
-    setproducts(data)
+    getListCartItem();
     return () => false;
   }, []);
   return (
     <main>
-      {products.length === 0 ? (
+      {listCartItem.length === 0 ? (
         <div
           id="shopify-section-template--14837291843671__main"
           className="shopify-section"
@@ -48,13 +72,13 @@ function Cart() {
                       You have no items in your shopping cart.
                     </h5>
                     <p>
-                      <a
+                      <Link
+                        to="/shop"
                         className="lezada-button lezada-button--small"
-                        href="/collections/all"
                       >
                         <i className="fa-solid fa-angle-left"></i> Continue
                         Shopping
-                      </a>
+                      </Link>
                     </p>
                   </div>
                 </div>
@@ -76,7 +100,7 @@ function Cart() {
               id="section-template--14837291843671__main"
             >
               <div className="container">
-                <form  method="post" noValidate className="cart">
+                <form method="post" noValidate className="cart">
                   <div className="row flex-column">
                     <div className="col-lg-12 mb-30">
                       <div className="cart-table-container">
@@ -102,14 +126,19 @@ function Cart() {
                             </tr>
                           </thead>
                           <tbody>
-                            { products.map((item) => {
-                                return <tr>
+                            {listCartItem.map((item) => {
+                              return (
+                                <tr>
                                   <td className="product-thumbnail pro-thumbnail">
                                     <a href="/products/lphone-13-white-color?variant=40092814180439">
                                       <img
                                         id="bannerImage-40092814180439"
                                         className="lazyload "
-                                       src={item.img}
+                                        src={
+                                          window.location.origin +
+                                          "/" +
+                                          item.images
+                                        }
                                         alt=""
                                       />
                                     </a>
@@ -126,7 +155,7 @@ function Cart() {
                                   <td className="product-price pro-price">
                                     <span className="price amount">
                                       <span className="money">
-                                        ${item.afterPrice}.00
+                                        ${item.price}.00
                                       </span>
                                     </span>
                                   </td>
@@ -152,18 +181,22 @@ function Cart() {
                                   <td className="total-price pro-subtotal">
                                     <span className="price">
                                       <span className="money">
-                                        ${item.afterPrice}.00
+                                        ${item.price}.00
                                       </span>
                                     </span>
                                   </td>
 
                                   <td className="product-remove pro-remove">
                                     <a href="">
-                                      <i className="fa-solid fa-xmark" onClick={removeProductCart}></i>
+                                      <i
+                                        className="fa-solid fa-xmark"
+                                        onClick={() => removeProductCart(item.id)}
+                                      ></i>
                                     </a>
                                   </td>
-                                </tr>;
-                               })} 
+                                </tr>
+                              );
+                            })}
                           </tbody>
                         </table>
                       </div>

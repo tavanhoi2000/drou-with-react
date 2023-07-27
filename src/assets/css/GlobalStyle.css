@@ -82,3 +82,12 @@
     font-weight: 600;
     
   }
+
+  #breadcrumb li:first-child {
+    margin-right: 5px;
+    color: black !important;
+  }
+
+  #breadcrumb li:last-child {
+    color: #e52e06!important;
+  }

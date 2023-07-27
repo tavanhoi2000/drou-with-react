@@ -1,13 +1,29 @@
 import "./shop.css";
-import { shopProducts } from "../../../data";
-import { useState,lazy,Suspense } from "react";
-import {Link} from 'react-router-dom'
-const Breadcrumb = lazy(() => import('../../../components/Breadcrumb'))
+import { useState, lazy, Suspense, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { db } from "../../../config/firebase";
+import { getDocs, collection } from "firebase/firestore";
+const Breadcrumb = lazy(() => import("../../../components/Breadcrumb"));
 function Shop() {
-  const [filteredList, setFilteredList] = useState(shopProducts);
+  const [listProduct, setListProduct] = useState([]);
+  const [filteredList, setFilteredList] = useState(listProduct);
+  const productCollectionRef = collection(db, "products");
+  const getListProduct = async () => {
+    try {
+      const data = await getDocs(productCollectionRef);
+      const filteredData = data.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setListProduct(filteredData);
+    } catch (error) {}
+  };
+  useEffect(() => {
+    getListProduct();
+  }, []);
   const filterBySearch = (event) => {
     const query = event.target.value;
-    var updateList = [...shopProducts];
+    var updateList = [...listProduct];
     updateList = updateList.filter(
       (item) => item.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
     );
@@ -15,9 +31,8 @@ function Shop() {
   };
   return (
     <main>
-     
       <Suspense>
-      <Breadcrumb />
+        <Breadcrumb />
       </Suspense>
       <div
         id="shopify-section-template--14772521828439__main"
@@ -78,7 +93,7 @@ function Shop() {
                 <div className="shop-grid">
                   <div className="product-grid-view">
                     <div className="row">
-                      {filteredList.map((item) => (
+                      {listProduct.map((item) => (
                         <div
                           className="col-lg-4 col-md-4 col-sm-6 col-12"
                           key={item.id}
@@ -89,7 +104,7 @@ function Shop() {
                                 <Link to={`/shop/${item.id}`}>
                                   <img
                                     className="popup_cart_image default-img"
-                                    src={item.img}
+                                    src={item.images}
                                     alt={item.name}
                                   />
 
@@ -103,8 +118,6 @@ function Shop() {
 
                               <div className="product-action-1">
                                 <button
-                                  onClick={() => console.log(1)}
-                                  aria-label="Add To Cart"
                                 >
                                   <i className="far fa-shopping-bag"></i>
                                 </button>
@@ -133,32 +146,28 @@ function Shop() {
                             </div>
 
                             <div className="product-content-wrap">
-                              <span
-                                className="shopify-product-reviews-badge"
-                              ></span>
+                              <span className="shopify-product-reviews-badge"></span>
                               <h2>
-                                <Link to={`/shop/${item.id}`}>
-                                  {item.name}
-                                </Link>
+                                <Link to={`/shop/${item.id}`}>{item.name}</Link>
                               </h2>
                               <div className="product-price">
                                 <span className="price">
                                   <span className="money">
-                                    ${item.afterPrice}.00
+                                    ${item.price}.00
                                   </span>
                                 </span>
 
                                 <span className="prev-price">
-                                  {item.beforePrice && (
+                                  {item.salePrice && (
                                     <del className="money">
-                                      ${item.beforePrice}.00
+                                      ${item.salePrice}.00
                                     </del>
                                   )}
                                 </span>
                               </div>
                             </div>
                           </div>
-                        </div>
+                        </div> 
                       ))}
                     </div>
                     <div className="shop_pagi">
@@ -202,17 +211,13 @@ function Shop() {
                     <h4 className="sidebar-widget-title">Search </h4>
 
                     <div className="search-style-3">
-                      <form action="/search" method="get" role="search">
+                      <form  method="get">
                         <input
                           type="search"
-                          name="q"
                           placeholder="Search our store "
                           aria-label="Search our store "
                           onChange={filterBySearch}
                         />
-                        <button type="submit">
-                          <i className="far fa-search"></i>{" "}
-                        </button>
                       </form>
                     </div>
                   </div>
