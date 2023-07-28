@@ -11,11 +11,11 @@ function Shop() {
   const getListProduct = async () => {
     try {
       const data = await getDocs(productCollectionRef);
-      const filteredData = data.docs.map((doc) => ({
+      const products = data.docs.map((doc) => ({
         ...doc.data(),
         id: doc.id,
       }));
-      setListProduct(filteredData);
+      setListProduct(products);
     } catch (error) {}
   };
   useEffect(() => {

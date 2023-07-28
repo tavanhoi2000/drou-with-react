@@ -25,13 +25,13 @@ const GoogleProvider = new GoogleAuthProvider();
 const GithubProvider = new GithubAuthProvider();
 const FacebookProvider = new FacebookAuthProvider();
 const cartItemCollection = collection(db, "cartItem");
-const productCollectionRef = collection(db, "products");
+const productCollection = collection(db, "products");
 
 export {
   auth,
   db,
   cartItemCollection,
-  productCollectionRef,
+  productCollection,
   GoogleProvider,
   GithubProvider,
   FacebookProvider,

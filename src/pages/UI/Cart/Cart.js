@@ -4,7 +4,8 @@ import { toast } from "react-toastify";
 import SelectDatePicker from "../../../components/DatePicker";
 import { getAllCities } from "../../../services";
 import "./cart.css";
-import { db,cartItemCollection } from "../../../config/firebase";
+import { db, cartItemCollection } from "../../../config/firebase";
+import { option } from "../../../config/toastOption";
 import { getDocs, deleteDoc, doc } from "firebase/firestore";
 const Breadcrumb = lazy(() => import("../../../components/Breadcrumb"));
 function Cart() {
@@ -14,11 +15,11 @@ function Cart() {
   const getListCartItem = async () => {
     try {
       const data = await getDocs(cartItemCollection);
-      const filteredData = data.docs.map((doc) => ({
+      const cartItems = data.docs.map((doc) => ({
         ...doc.data(),
         id: doc.id,
       }));
-      setListCartITem(filteredData);
+      setListCartITem(cartItems);
     } catch (error) {}
   };
 
@@ -26,17 +27,10 @@ function Cart() {
     try {
       const cartItemDoc = doc(db, "cartItem", id);
       await deleteDoc(cartItemDoc);
-      toast.success("You deleted to card", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    } catch (error) {}
+      toast.success("You deleted to card", option);
+    } catch (error) {
+      console.log(error);
+    }
   };
   useEffect(() => {
     const cities = async () => {
@@ -128,7 +122,7 @@ function Cart() {
                           <tbody>
                             {listCartItem.map((item) => {
                               return (
-                                <tr>
+                                <tr key={item.id}>
                                   <td className="product-thumbnail pro-thumbnail">
                                     <a href="/products/lphone-13-white-color?variant=40092814180439">
                                       <img
@@ -190,7 +184,9 @@ function Cart() {
                                     <a href="">
                                       <i
                                         className="fa-solid fa-xmark"
-                                        onClick={() => removeProductCart(item.id)}
+                                        onClick={() =>
+                                          removeProductCart(item.id)
+                                        }
                                       ></i>
                                     </a>
                                   </td>

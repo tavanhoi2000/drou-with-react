@@ -3,12 +3,13 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import { Carousel } from "react-responsive-carousel";
 import { useEffect, useRef, useState } from "react";
 import Item from "../../../components/Item";
+import { option } from "../../../config/toastOption";
 import { getToken } from "../../../hooks";
 import { toast } from "react-toastify";
 import Breadcrumb from "../../../components/Breadcrumb";
 import {
   cartItemCollection,
-  productCollectionRef,
+  productCollection,
 } from "../../../config/firebase";
 import { getDocs, addDoc } from "firebase/firestore";
 function Detail() {
@@ -17,7 +18,7 @@ function Detail() {
   const [listProduct, setListProduct] = useState([]);
   const getListProduct = async () => {
     try {
-      const data = await getDocs(productCollectionRef);
+      const data = await getDocs(productCollection);
       const filteredData = data.docs.map((doc) => ({
         ...doc.data(),
         id: doc.id,
@@ -36,28 +37,10 @@ function Detail() {
     try {
       if (getToken("token") !== null) {
         await addDoc(cartItemCollection, product);
-        toast.success("You added to card", {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+        toast.success("You added to card", option);
         navigate("/shop");
       } else {
-        toast.error("Please login", {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+        toast.error("Please login", option);
         navigate("/login");
       }
     } catch (error) {}
