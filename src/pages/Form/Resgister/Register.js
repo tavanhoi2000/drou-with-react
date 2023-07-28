@@ -7,6 +7,7 @@ import { auth } from "../../../config/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { option } from "../../../config/toastOption";
 function Register() {
   const navigate = useNavigate();
   const {
@@ -20,34 +21,15 @@ function Register() {
         auth,
         data.email,
         data.password
-      )
+      );
       await updateProfile(createUser.user, {
-        displayName: data.name
-      })
-        toast.success("You have successfully registered", {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-        navigate("/login");
-      
+        displayName: data.name,
+      });
+      toast.success("You have successfully registered", option);
+      navigate("/login");
     } catch (error) {
       if (error.code === "auth/email-already-in-use") {
-        toast.error(`Email đã tồn tại !`, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+        toast.error(`Email đã tồn tại !`, option);
       }
     }
   };
@@ -61,8 +43,7 @@ function Register() {
                 <h2>Register</h2>
                 <p>Please Register using account detail bellow.</p>
                 <p>
-                  Already have an account?{" "}
-                  <Link to="/login">Sign In</Link>
+                  Already have an account? <Link to="/login">Sign In</Link>
                 </p>
               </div>
               <form>

@@ -7,6 +7,7 @@ import {
   FacebookProvider,
   GithubProvider,
 } from "../../../config/firebase";
+import { option } from "../../../config/toastOption";
 import {
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
@@ -39,16 +40,7 @@ function Login() {
         if (getToken("token") !== null) {
           return navigate("/");
         } else {
-          toast.error(`Login fail`, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
+          toast.error(`Login fail`, option);
         }
       }
     } catch (error) {
