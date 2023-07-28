@@ -28,9 +28,7 @@ function Cart() {
       const cartItemDoc = doc(db, "cartItem", id);
       await deleteDoc(cartItemDoc);
       toast.success("You deleted to card", option);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
   useEffect(() => {
     const cities = async () => {
