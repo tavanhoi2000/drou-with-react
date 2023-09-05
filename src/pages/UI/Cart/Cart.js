@@ -4,44 +4,44 @@ import { toast } from "react-toastify";
 import SelectDatePicker from "../../../components/DatePicker";
 import { getAllCities } from "../../../services";
 import "./cart.css";
-import { db, cartItemCollection } from "../../../config/firebase";
 import { option } from "../../../config/toastOption";
-import { getDocs, deleteDoc, doc } from "firebase/firestore";
+import { getListCartItem, removeAllItem, removeCartItem } from "./redux/cartAction";
+import { useDispatch, useSelector } from "react-redux";
 const Breadcrumb = lazy(() => import("../../../components/Breadcrumb"));
 function Cart() {
+  const dispatch = useDispatch();
   const [listCities, setListCities] = useState([]);
   const [isDisable, setDisable] = useState(true);
-  const [listCartItem, setListCartITem] = useState([]);
-  const getListCartItem = async () => {
-    try {
-      const data = await getDocs(cartItemCollection);
-      const cartItems = data.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }));
-      setListCartITem(cartItems);
-    } catch (error) {}
+  const cartItems = useSelector((state) => state.cart.listCartItem);
+  const removeProductCart = (e,id) => {
+    e.preventDefault()
+    dispatch(removeCartItem(id))
+    toast.success('Delete cart item success', option)
+    dispatch(getListCartItem())
   };
 
-  const removeProductCart = async (id) => {
-    try {
-      const cartItemDoc = doc(db, "cartItem", id);
-      await deleteDoc(cartItemDoc);
-      toast.success("You deleted to card", option);
-    } catch (error) {}
-  };
+  const removeAllCartItem = (e) => {
+    e.preventDefault()
+    window.confirm('Are you sure delete all item ?')
+    if(window.confirm) {
+      dispatch(removeAllItem())
+      toast.success('Delete cart item success', option)
+    }
+  }
   useEffect(() => {
     const cities = async () => {
       const data = await getAllCities();
       setListCities(data.data);
     };
     cities();
-    getListCartItem();
-    return () => false;
-  }, []);
+    dispatch(getListCartItem());
+  }, [dispatch]);
   return (
     <main>
-      {listCartItem.length === 0 ? (
+      <Suspense>
+        <Breadcrumb />
+      </Suspense>
+      {cartItems.length === 0 ? (
         <div
           id="shopify-section-template--14837291843671__main"
           className="shopify-section"
@@ -80,9 +80,6 @@ function Cart() {
         </div>
       ) : (
         <>
-          <Suspense>
-            <Breadcrumb />
-          </Suspense>
           <div
             id="shopify-section-template--14837291843671__main"
             className="shopify-section"
@@ -96,7 +93,7 @@ function Cart() {
                   <div className="row flex-column">
                     <div className="col-lg-12 mb-30">
                       <div className="cart-table-container">
-                        <table className="cart-table">
+                        <table className="cart-table text-center">
                           <thead>
                             <tr>
                               <th
@@ -112,85 +109,86 @@ function Cart() {
                               <th className="pro-subtotal product-subtotal">
                                 Total
                               </th>
-                              <th className="pro-remove product-remov">
-                                &nbsp
+                              <th className="pro-remove product-remov ">
+                                action
                               </th>
                             </tr>
                           </thead>
                           <tbody>
-                            {listCartItem.map((item) => {
-                              return (
-                                <tr key={item.id}>
-                                  <td className="product-thumbnail pro-thumbnail">
-                                    <a href="/products/lphone-13-white-color?variant=40092814180439">
-                                      <img
-                                        id="bannerImage-40092814180439"
-                                        className="lazyload "
-                                        src={
-                                          window.location.origin +
-                                          "/" +
-                                          item.images
-                                        }
-                                        alt=""
-                                      />
-                                    </a>
-                                  </td>
-                                  <td className="product-name pro-name">
-                                    <a href="/products/lphone-13-white-color?variant=40092814180439">
-                                      {item.name}
-                                    </a>
-                                    <span className="product-variation">
-                                      s / red
-                                    </span>
-                                  </td>
-
-                                  <td className="product-price pro-price">
-                                    <span className="price amount">
-                                      <span className="money">
-                                        ${item.price}.00
+                            {cartItems &&
+                              cartItems.map((item) => {
+                                return (
+                                  <tr key={item.id}>
+                                    <td className="product-thumbnail pro-thumbnail align-item-center">
+                                      <a href="/products/lphone-13-white-color?variant=40092814180439">
+                                        <img
+                                          id="bannerImage-40092814180439"
+                                          className="lazyload "
+                                          src={
+                                            window.location.origin +
+                                            "/" +
+                                            item.images
+                                          }
+                                          alt=""
+                                        />
+                                      </a>
+                                    </td>
+                                    <td className="product-name pro-name">
+                                      <a href="/products/lphone-13-white-color?variant=40092814180439">
+                                        {item.name}
+                                      </a>
+                                      <span className="product-variation">
+                                        s / red
                                       </span>
-                                    </span>
-                                  </td>
+                                    </td>
 
-                                  <td className="product-quantity pro-quantity">
-                                    <div className="pro-qty d-inline-block mx-0 pt-0">
-                                      <span className="dec">-</span>
-                                      <input
-                                        type="text"
-                                        name="updates[]"
-                                        value="1"
-                                        totalqty="10"
-                                      />
-                                      <span
-                                        className="inc"
-                                        title="10 translation missing: en.products.product.in_stock"
-                                      >
-                                        +
+                                    <td className="product-price pro-price">
+                                      <span className="price amount">
+                                        <span className="money">
+                                          ${item.price}.00
+                                        </span>
                                       </span>
-                                    </div>
-                                  </td>
+                                    </td>
 
-                                  <td className="total-price pro-subtotal">
-                                    <span className="price">
-                                      <span className="money">
-                                        ${item.price}.00
+                                    <td className="product-quantity pro-quantity">
+                                      <div className="pro-qty d-inline-block mx-0 pt-0">
+                                        <span className="dec">-</span>
+                                        <input
+                                          type="text"
+                                          name="updates[]"
+                                          defaultValue={1}
+                                          totalqty="10"
+                                        />
+                                        <span
+                                          className="inc"
+                                          title="10 translation missing: en.products.product.in_stock"
+                                        >
+                                          +
+                                        </span>
+                                      </div>
+                                    </td>
+
+                                    <td className="total-price pro-subtotal">
+                                      <span className="price">
+                                        <span className="money">
+                                          ${item.price}.00
+                                        </span>
                                       </span>
-                                    </span>
-                                  </td>
+                                    </td>
 
-                                  <td className="product-remove pro-remove">
-                                    <a href="">
-                                      <i
-                                        className="fa-solid fa-xmark"
-                                        onClick={() =>
-                                          removeProductCart(item.id)
-                                        }
-                                      ></i>
-                                    </a>
-                                  </td>
-                                </tr>
-                              );
-                            })}
+                                    <td className="product-remove pro-remove">
+                                      <a href="">
+                                        <i
+                                          className="fa-solid fa-xmark"
+                                          onClick={(e) =>
+                                            removeProductCart(e,item.id)
+                                          }
+                                        ></i>
+                                      </a>
+                                    </td>
+                                  </tr>
+                                );
+                              })}
                           </tbody>
                         </table>
                       </div>
@@ -213,7 +211,8 @@ function Cart() {
                             </Link>
                             <a
                               className="lezada-button lezada-button--medium"
-                              href="/cart/clear"
+                              href=""
+                              onClick={e => removeAllCartItem(e)}
                             >
                               Clear Cart
                             </a>
@@ -388,9 +387,6 @@ function Cart() {
         </>
       )}
     </main>
-    // <main>
-
-    // </main>
   );
 }
 

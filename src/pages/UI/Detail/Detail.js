@@ -163,17 +163,16 @@ function Detail() {
                               defaultValue={1}
                             >
                               <option value={1} data-sku="111">
-                                red - <span className="money">$999.00 USD</span>
+                                red 
                               </option>
 
                               <option value={2} data-sku="112">
-                                green -{" "}
-                                <span className="money">$999.00 USD</span>
+                                green 
+                                
                               </option>
 
                               <option value={3} data-sku="113">
-                                blue -{" "}
-                                <span className="money">$999.00 USD</span>
+                                blue 
                               </option>
                             </select>
 
@@ -246,7 +245,7 @@ function Detail() {
                                 <div className="pro-qty d-inline-block mx-0 pt-0">
                                   <span
                                     className="dec"
-                                    onClick={() => setQuantity(quantity--)}
+                                    onClick={() => setQuantity(quantity => quantity - 1)}
                                   >
                                     -
                                   </span>
@@ -262,7 +261,7 @@ function Detail() {
                                   />
                                   <span
                                     className="inc"
-                                    onClick={() => setQuantity(quantity++)}
+                                    onClick={() => setQuantity(quantity => quantity + 1)}
                                   >
                                     +
                                   </span>

@@ -1,17 +1,36 @@
 import { useForm } from "react-hook-form";
 import { regexEmail } from "../../../components/regex";
 import "./contact.css";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
+import { auth } from "../../../config/firebase";
+import { toast } from "react-toastify";
+import { option } from "../../../config/toastOption";
+import { useDispatch } from "react-redux";
+import { sendFeedBack } from "./redux/contactAction";
 const Breadcrumb = lazy(() => import("../../../components/Breadcrumb"));
 function Contact() {
+  const dispatch = useDispatch()
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    const userLogin = auth.onAuthStateChanged((user) => {
+    user ? setUser(user): setUser(null)
+    });
+    return () => userLogin;
+  }, [user]);
+
   function sendMessage(data) {
-    alert(`Thank you ${data.name} for responding`);
+    dispatch(sendFeedBack(data))
+    if (user) {
+      toast.success(`Thank you ${user.displayName} for feedback`, option);
+    } else {
+      toast.success(`Thank you ${data.name} for responding`, option);
+    }
   }
   return (
     <main>
@@ -134,13 +153,24 @@ function Contact() {
                           style={{ margin: 0, padding: 0 }}
                         >
                           <div className="col-md-6 ">
-                            <input
-                              type="text"
-                              placeholder="Name *"
-                              className=" input-style "
-                              id="ContactFormName"
-                              {...register("name", { required: true })}
-                            />
+                            {user ? (
+                              <input
+                                type="text"
+                                placeholder="Name *"
+                                className=" input-style "
+                                id="ContactFormName"
+                                defaultValue={user.displayName}
+                                {...register('name')}
+                              />
+                            ) : (
+                              <input
+                                type="text"
+                                placeholder="Name *"
+                                className=" input-style "
+                                id="ContactFormName"
+                                {...register("name", { required: true })}
+                              />
+                            )}
 
                             {errors.name && errors.name.type === "required" ? (
                               <p className="text-danger text-start mb-1">
@@ -149,18 +179,31 @@ function Contact() {
                             ) : null}
                           </div>
                           <div className="col-md-6">
-                            <input
-                              type="email"
-                              required=""
-                              placeholder="Email *"
-                              className=" input-style "
-                              name="contact[email]"
-                              id="ContactFormEmail"
-                              {...register("email", {
-                                required: true,
-                                pattern: regexEmail,
-                              })}
-                            />
+                            {user ? (
+                              <input
+                                type="email"
+                                required=""
+                                placeholder="Email *"
+                                className=" input-style "
+                                name="contact[email]"
+                                id="ContactFormEmail"
+                                defaultValue={user.email}
+                                {...register('email')}
+                              />
+                            ) : (
+                              <input
+                                type="email"
+                                required=""
+                                placeholder="Email *"
+                                className=" input-style "
+                                name="contact[email]"
+                                id="ContactFormEmail"
+                                {...register("email", {
+                                  required: true,
+                                  pattern: regexEmail,
+                                })}
+                              />
+                            )}
                             {errors.email && (
                               <p className="text-danger text-start">
                                 {errors.email.type === "pattern"
@@ -177,6 +220,7 @@ function Contact() {
                             id="ContactFormSubject"
                             name="contact[subject]"
                             placeholder="Subject *"
+                            {...register('subject')}
                           />
                         </div>
                         <div className="col-lg-12">
@@ -185,6 +229,7 @@ function Contact() {
                             className="textarea-style"
                             name="contact[body]"
                             id="ContactFormMessage"
+                            {...register('message')}
                           ></textarea>
                         </div>
                         <div className="col-lg-12 text-center">

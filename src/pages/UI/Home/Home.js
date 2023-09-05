@@ -3,7 +3,9 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import { categories } from "../../../data";
 import { Link } from "react-router-dom";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getListProduct } from "./redux/homeAction";
 const Slider = lazy(() => import("../../../components/Slider"));
 const Item = lazy(() => import("../../../components/Item"));
 const BannerSale = lazy(() => import("../../../components/BannerSale"));
@@ -22,7 +24,11 @@ function Home() {
       snapAlign: "start",
     },
   };
-
+  const dispatch = useDispatch()
+  const products = useSelector(state => state.home.products)
+  useEffect(() => {
+    dispatch(getListProduct())
+  },[dispatch])
   return (
     <>
       <Suspense>
@@ -51,8 +57,8 @@ function Home() {
               <img src="images/sub-banner-1.jpg" alt="" />
             </div>
 
-            <div className="item col-lg-6 col-sm-12">
-              <div className="content">
+            <div className="item col-lg-6 col-sm-12 overflow-hidden">
+              <div className="content ">
                 <span className="category">Entertainment & Games</span>
                 <h3 className="price">Just Starting at $850 Hurry up!</h3>
                 <Link to="/shop">Shop Now</Link>

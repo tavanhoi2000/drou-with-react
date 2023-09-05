@@ -1,26 +1,19 @@
 import "./shop.css";
 import { useState, lazy, Suspense, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { db } from "../../../config/firebase";
-import { getDocs, collection } from "firebase/firestore";
+import {  useDispatch, useSelector } from "react-redux";
+import {getListCategory, getListProduct} from './redux/shopAction'
 const Breadcrumb = lazy(() => import("../../../components/Breadcrumb"));
 function Shop() {
   const [listProduct, setListProduct] = useState([]);
-  const [filteredList, setFilteredList] = useState(listProduct);
-  const productCollectionRef = collection(db, "products");
-  const getListProduct = async () => {
-    try {
-      const data = await getDocs(productCollectionRef);
-      const products = data.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }));
-      setListProduct(products);
-    } catch (error) {}
-  };
+  const dispatch = useDispatch()
+  const products = useSelector((state) => state.shop.shopProducts)
+  const categories = useSelector((state) => state.shop.categories)
+  const [filteredList, setFilteredList] = useState(products);
   useEffect(() => {
-    getListProduct();
-  }, []);
+    dispatch(getListProduct())
+    dispatch(getListCategory())
+  }, [dispatch]);
   const filterBySearch = (event) => {
     const query = event.target.value;
     var updateList = [...listProduct];
@@ -54,7 +47,7 @@ function Shop() {
                         </button>
                       </div>
                       <span className="show-items">
-                        Showing 1 - 9 of {filteredList.length} result
+                        Showing 1 - 9 of {products.length} result
                       </span>
                       <div className="main-toolbar-sorter clearfix">
                         <div className="toolbar-sorter d-md-flex align-items-center">
@@ -93,7 +86,7 @@ function Shop() {
                 <div className="shop-grid">
                   <div className="product-grid-view">
                     <div className="row">
-                      {listProduct.map((item) => (
+                      {products.map((item) => (
                         <div
                           className="col-lg-4 col-md-4 col-sm-6 col-12"
                           key={item.id}
@@ -355,35 +348,13 @@ function Shop() {
                   <aside className="sidebar-categorie mb-30">
                     <h3 className="sidebar-title">Categories</h3>
                     <ul className="sidbar-style">
-                      <li className="">
-                        <a href="/collections/accessories">
-                          Accessories <span>(9)</span>
+                      {categories.map((category) => 
+                      <li className="" key={category.id}>
+                        <a href="">
+                          {category.name} <span>(9)</span>
                         </a>
                       </li>
-
-                      <li className="">
-                        <a href="/collections/headphones">
-                          Headphones <span>(8)</span>
-                        </a>
-                      </li>
-
-                      <li className="active">
-                        <a href="/collections/iphone">
-                          iPhone <span>(8)</span>
-                        </a>
-                      </li>
-
-                      <li className="">
-                        <a href="/collections/laptop">
-                          Laptop <span>(8)</span>
-                        </a>
-                      </li>
-
-                      <li className="">
-                        <a href="/collections/mini-speakers">
-                          Mini speakers <span>(8)</span>
-                        </a>
-                      </li>
+                      )}
                     </ul>
                   </aside>
 
@@ -463,152 +434,6 @@ function Shop() {
                     </ul>
                   </div>
 
-                  <aside className="color mb-30">
-                    <h3 className="sidebar-title">Color</h3>
-                    <div className="color-option sidbar-style sidebar-color-list tooltip-style-3">
-                      <ul>
-                        <li className="red">
-                          <a
-                            style={{
-                              background: "red no-repeat center",
-                              backgroundSize: "initial",
-                            }}
-                            aria-label="red"
-                            href="/collections/all/red"
-                          >
-                            {" "}
-                            red
-                          </a>
-                        </li>
-
-                        <li className="green">
-                          <a
-                            style={{
-                              background: "green no-repeat center",
-                              backgroundSize: "initial",
-                            }}
-                            aria-label="green"
-                            href="/collections/all/green"
-                          >
-                            {" "}
-                            green
-                          </a>
-                        </li>
-
-                        <li className="blue">
-                          <a
-                            style={{
-                              background: "blue no-repeat center",
-                              backgroundSize: "initial",
-                            }}
-                            aria-label="blue"
-                            href="/collections/all/blue"
-                          >
-                            {" "}
-                            blue
-                          </a>
-                        </li>
-
-                        <li className="yellow">
-                          <a
-                            style={{
-                              background: "yellow no-repeat center",
-                              backgroundSize: "initial",
-                            }}
-                            aria-label="yellow"
-                            href="/collections/all/yellow"
-                          >
-                            {" "}
-                            yellow
-                          </a>
-                        </li>
-
-                        <li className="white">
-                          <a
-                            style={{
-                              background: "white no-repeat center",
-                              backgroundSize: "initial",
-                            }}
-                            aria-label="white"
-                            href="/collections/all/white"
-                          >
-                            {" "}
-                            white
-                          </a>
-                        </li>
-
-                        <li className="gold">
-                          <a
-                            style={{
-                              background: "gold no-repeat center",
-                              backgroundSize: "initial",
-                            }}
-                            aria-label="gold"
-                            href="/collections/all/gold"
-                          >
-                            {" "}
-                            gold
-                          </a>
-                        </li>
-
-                        <li className="gray">
-                          <a
-                            style={{
-                              background: "gray no-repeat center",
-                              backgroundSize: "initial",
-                            }}
-                            aria-label="gray"
-                            href="/collections/all/gray"
-                          >
-                            {" "}
-                            gray
-                          </a>
-                        </li>
-
-                        <li className="magenta">
-                          <a
-                            style={{
-                              background: "magenta no-repeat center",
-                              backgroundSize: "initial",
-                            }}
-                            aria-label="magenta"
-                            href="/collections/all/magenta"
-                          >
-                            {" "}
-                            magenta
-                          </a>
-                        </li>
-
-                        <li className="maroon">
-                          <a
-                            style={{
-                              background: "maroon no-repeat center",
-                              backgroundSize: "initial",
-                            }}
-                            aria-label="maroon"
-                            href="/collections/all/maroon"
-                          >
-                            {" "}
-                            maroon
-                          </a>
-                        </li>
-
-                        <li className="navy">
-                          <a
-                            style={{
-                              background: "navy no-repeat center",
-                              backgroundSize: "initial",
-                            }}
-                            aria-label="navy"
-                            href="/collections/all/navy"
-                          >
-                            {" "}
-                            navy
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </aside>
                 </div>
               </div>
             </div>
