@@ -6,8 +6,10 @@ function BannerSale() {
   let [saleMinutes, setSaleMinutes] = useState(null);
   let [saleSeconds, setSaleSecond] = useState(null);
 
-  const formatTime = (time) => time < 10 ? "0" + Math.floor(time): Math.floor(time)
-  useEffect(() => {
+  const formatTime = (time) =>
+    time < 10 ? "0" + Math.floor(time) : Math.floor(time);
+
+  const countTimeSale = () => {
     const seconds = 1000,
       minutes = seconds * 60,
       hour = minutes * 60,
@@ -42,6 +44,9 @@ function BannerSale() {
         }
       }
     }, 1000);
+  };
+  useEffect(() => {
+    countTimeSale();
   });
 
   return (
@@ -61,24 +66,15 @@ function BannerSale() {
                   <p>DAYS</p>
                 </div>
                 <div className="item HRS">
-                  <span id="hours">
-                    {formatTime(saleHour)}
-                  </span>{" "}
-                  <br />
+                  <span id="hours">{formatTime(saleHour)}</span> <br />
                   <p>HRS</p>
                 </div>
                 <div className="item MINS">
-                  <span id="minutes">
-                    {formatTime(saleMinutes)}
-                  </span>{" "}
-                  <br />
+                  <span id="minutes">{formatTime(saleMinutes)}</span> <br />
                   <p>MINS</p>
                 </div>
                 <div className="item SECS">
-                  <span id="seconds">
-                    {formatTime(saleSeconds)}
-                  </span>{" "}
-                  <br />
+                  <span id="seconds">{formatTime(saleSeconds)}</span> <br />
                   <p>SECS</p>
                 </div>
               </div>

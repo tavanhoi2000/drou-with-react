@@ -11,6 +11,7 @@ import { lazy } from "react";
 import Detail from "./pages/UI/Detail/Detail";
 import Error from "./pages/UI/Errors/Error";
 import Cart from "./pages/UI/Cart/Cart";
+import WhistList from "./pages/UI/WhistList/WhistList";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 const Footer = lazy(() => import("./layout/footer/Footer"));
@@ -29,6 +30,7 @@ function App() {
               <Route path="/shop/:shopId" element={<Detail />}></Route>
               <Route path="/cart" element={<Cart />}></Route>
               <Route path="/contact" element={<Contact />}></Route>
+              <Route path="/whistlist" element={<WhistList />}></Route>
               <Route path="/login" element={<Login />}></Route>
               <Route path="/register" element={<Register />}></Route>
             </Routes>

@@ -3,9 +3,14 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import SelectDatePicker from "../../../components/DatePicker";
 import { getAllCities } from "../../../services";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import "./cart.css";
 import { option } from "../../../config/toastOption";
-import { getListCartItem, removeAllItem, removeCartItem } from "./redux/cartAction";
+import {
+  getListCartItem,
+  removeAllItem,
+  removeCartItem,
+} from "./redux/cartAction";
 import { useDispatch, useSelector } from "react-redux";
 const Breadcrumb = lazy(() => import("../../../components/Breadcrumb"));
 function Cart() {
@@ -13,21 +18,21 @@ function Cart() {
   const [listCities, setListCities] = useState([]);
   const [isDisable, setDisable] = useState(true);
   const cartItems = useSelector((state) => state.cart.listCartItem);
-  const removeProductCart = (e,id) => {
-    e.preventDefault()
-    dispatch(removeCartItem(id))
-    toast.success('Delete cart item success', option)
-    dispatch(getListCartItem())
+  const removeProductCart = (e, id) => {
+    e.preventDefault();
+    dispatch(removeCartItem(id));
+    toast.success("Delete cart item success", option);
+    dispatch(getListCartItem());
   };
 
   const removeAllCartItem = (e) => {
-    e.preventDefault()
-    window.confirm('Are you sure delete all item ?')
-    if(window.confirm) {
-      dispatch(removeAllItem())
-      toast.success('Delete cart item success', option)
+    e.preventDefault();
+    window.confirm("Are you sure delete all item ?");
+    if (window.confirm) {
+      dispatch(removeAllItem());
+      toast.success("Delete cart item success", option);
     }
-  }
+  };
   useEffect(() => {
     const cities = async () => {
       const data = await getAllCities();
@@ -129,7 +134,6 @@ function Cart() {
                                             "/" +
                                             item.images
                                           }
-                                          alt=""
                                         />
                                       </a>
                                     </td>
@@ -175,16 +179,18 @@ function Cart() {
                                         </span>
                                       </span>
                                     </td>
-
                                     <td className="product-remove pro-remove">
-                                      <a href="">
-                                        <i
-                                          className="fa-solid fa-xmark"
+                                      <OverlayTrigger
+                                        overlay={<Tooltip>Xóa</Tooltip>}
+                                      >
+                                        <a
                                           onClick={(e) =>
-                                            removeProductCart(e,item.id)
+                                            removeProductCart(e, item.id)
                                           }
-                                        ></i>
-                                      </a>
+                                        >
+                                          <i className="fa-solid fa-xmark"></i>
+                                        </a>
+                                      </OverlayTrigger>
                                     </td>
                                   </tr>
                                 );
@@ -212,7 +218,7 @@ function Cart() {
                             <a
                               className="lezada-button lezada-button--medium"
                               href=""
-                              onClick={e => removeAllCartItem(e)}
+                              onClick={(e) => removeAllCartItem(e)}
                             >
                               Clear Cart
                             </a>

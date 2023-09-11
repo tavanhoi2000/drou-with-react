@@ -28,6 +28,7 @@ const cartItemCollection = collection(db, "cartItem");
 const productCollection = collection(db, "products");
 const CategoryCollection = collection(db, "categories")
 const FeedbackCollection = collection(db, "feedback")
+const FavoriteItemCollection = collection(db,"favoriteItem")
 
 export {
   auth,
@@ -38,5 +39,6 @@ export {
   GithubProvider,
   FacebookProvider,
   CategoryCollection,
-  FeedbackCollection
+  FeedbackCollection,
+  FavoriteItemCollection
 };

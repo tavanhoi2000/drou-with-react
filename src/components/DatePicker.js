@@ -8,14 +8,13 @@ function SelectDatePicker() {
     setSelectedDate(date);
   };
   return (
-    <>
-      <DatePicker className=""
-        selected={selectedDate}
-        onChange={handleDateChange}
-        dateFormat="yyyy-MM-dd"
-        placeholderText="Click to select a date"
-      />
-    </>
+    <DatePicker
+      className=""
+      selected={selectedDate}
+      onChange={handleDateChange}
+      dateFormat="yyyy-MM-dd"
+      placeholderText="Click to select a date"
+    />
   );
 }
 

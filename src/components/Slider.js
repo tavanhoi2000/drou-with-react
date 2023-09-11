@@ -1,6 +1,7 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, EffectFade, Pagination } from "swiper/modules";
+import { Navigation, EffectFade, Pagination, Autoplay } from "swiper/modules";
 import { listSlide } from "../data";
+import SwiperCore from 'swiper';
 import 'swiper/css'
 import "swiper/css/effect-fade";
 import "swiper/css/navigation";
@@ -8,6 +9,7 @@ import "swiper/css/pagination";
 import '../assets/css/slider.css'
 import Aos from "aos";
 
+SwiperCore.use([Autoplay])
 
 Aos.init()
 
@@ -18,9 +20,9 @@ function Slider() {
         modules={[Navigation, Pagination, EffectFade]}
         effect="fade"
         navigation
-        autoPlay
-        pagination={{ clickable: true }}
-        loop="true"
+        autoplay={{ delay:3000 }}
+        pagination={{ clickable: true}}
+        loop
         className="mySwiper"
       >
         {listSlide.map((item, index) => {

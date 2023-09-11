@@ -313,9 +313,6 @@ input[type="radio"] {
 .product-details .wishlist-action {
   display: flex;
 }
-.wishlist-action a {
-  display: inline-block;
-}
 
 .product-details .wishlist-action a {
   border: 7px solid #c7b270;

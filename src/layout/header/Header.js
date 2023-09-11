@@ -72,7 +72,7 @@ function Header() {
         <div className="container">
           <nav>
             <div className="nav__logo">
-              <img src="images/logo_300x300.png" alt="logo" />
+              <img src={window.location.origin + '/images/logo_300x300.png'} alt="logo" />
             </div>
             <div className="nav__menu-pages">
               <ul>
@@ -89,7 +89,7 @@ function Header() {
             </div>
             <div className="nav__items d-flex justify-content-around">
               <i className="fa-solid fa-magnifying-glass"></i>
-              <i className="fa-regular fa-heart" />
+              <Link to='/whistlist'><i className="fa-regular fa-heart"></i></Link>
               <Link to='/cart'><i className="fa-solid fa-bag-shopping"></i></Link>
             </div>
           </nav>

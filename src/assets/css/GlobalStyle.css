@@ -91,3 +91,26 @@
   #breadcrumb li:last-child {
     color: #e52e06!important;
   }
+
+  .hide-icon {
+    top: 90%;
+    left: 13%;
+  }
+  .hide-icon i:hover {
+    background-color: #e52e06;
+  }
+  .hide-icon i {
+    width: 25px;
+    height: 25px;
+    background-color: #333333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    color: #fff;
+    transition: all .2s ease-in ;
+  }
+
+  .swiper-wrapper {
+    display: flex;
+  }

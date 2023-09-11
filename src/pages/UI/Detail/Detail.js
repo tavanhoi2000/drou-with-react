@@ -1,50 +1,48 @@
 import "./detail.css";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { Carousel } from "react-responsive-carousel";
 import { useEffect, useRef, useState } from "react";
 import Item from "../../../components/Item";
 import { option } from "../../../config/toastOption";
 import { getToken } from "../../../hooks";
 import { toast } from "react-toastify";
 import Breadcrumb from "../../../components/Breadcrumb";
-import {
-  cartItemCollection,
-  productCollection,
-} from "../../../config/firebase";
-import { getDocs, addDoc } from "firebase/firestore";
+import { useDispatch, useSelector } from "react-redux";
+import { getListProduct } from "./redux/detailAction";
+import { addToCartDoc, addToWhistListDoc } from "./redux/detailAction";
 function Detail() {
-  let [quantity, setQuantity] = useState(1);
+  const [showModalCompare, setShowModalCompare] = useState(false)
+  const dispatch = useDispatch();
+  const listProduct = useSelector((state) => state.shop.shopProducts);
   const { shopId } = useParams();
-  const [listProduct, setListProduct] = useState([]);
-  const getListProduct = async () => {
-    try {
-      const data = await getDocs(productCollection);
-      const filteredData = data.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }));
-      setListProduct(filteredData);
-    } catch (error) {}
-  };
-  useEffect(() => {
-    getListProduct();
-  }, []);
   const product = listProduct.find((product) => product.id === shopId);
+  let [quantity, setQuantity] = useState(1);
+  const [detailImage, setDetailImage] = useState(product ? product.images: '')
+  useEffect(() => {
+    dispatch(getListProduct());
+  }, [dispatch]);
   const refQuantity = useRef();
   const navigate = useNavigate();
-  const addToCart = async (e) => {
+  const addToCart = (e, product) => {
     e.preventDefault();
-    try {
-      if (getToken("token") !== null) {
-        await addDoc(cartItemCollection, product);
-        toast.success("You added to card", option);
-        navigate("/shop");
-      } else {
-        toast.error("Please login", option);
-        navigate("/login");
-      }
-    } catch (error) {}
+    if (getToken("token") !== null) {
+      dispatch(addToCartDoc(product));
+      toast.success("You added to cart", option);
+    } else {
+      toast.error("Please login", option);
+      navigate("/login");
+    }
   };
+  const addToWishList = (e, product) => {
+    e.preventDefault();
+    if (getToken("token") !== null) {
+      dispatch(addToWhistListDoc(product));
+      toast.success("You added to favorite", option);
+    } else {
+      toast.error("Please login", option);
+      navigate("/login");
+    }
+  };
+
   if (!product) {
     return <p>loading...</p>;
   }
@@ -72,7 +70,7 @@ function Detail() {
                             id="ProductPhotoImg"
                             className="product-zoom product_variant_image"
                             alt={product.name}
-                            src={window.location.origin + "/" + product.images}
+                            src={window.location.origin + "/" + detailImage}
                           />
                         </div>
 
@@ -84,15 +82,15 @@ function Detail() {
                             {product.listDetail.map((item, index) => (
                               <a
                                 className="product-single__thumbnail"
-                                href=""
+                                href="#"
                                 key={index}
                               >
                                 <img
                                   src={window.location.origin + "/" + item}
-                                  alt={product.name}
+                                  alt={item}
                                   onClick={(e) => {
                                     e.preventDefault();
-                                    product.images = item;
+                                    setDetailImage(item)
                                   }}
                                 />
                               </a>
@@ -163,16 +161,15 @@ function Detail() {
                               defaultValue={1}
                             >
                               <option value={1} data-sku="111">
-                                red 
+                                red
                               </option>
 
                               <option value={2} data-sku="112">
-                                green 
-                                
+                                green
                               </option>
 
                               <option value={3} data-sku="113">
-                                blue 
+                                blue
                               </option>
                             </select>
 
@@ -245,7 +242,9 @@ function Detail() {
                                 <div className="pro-qty d-inline-block mx-0 pt-0">
                                   <span
                                     className="dec"
-                                    onClick={() => setQuantity(quantity => quantity - 1)}
+                                    onClick={() =>
+                                      setQuantity((quantity) => quantity - 1)
+                                    }
                                   >
                                     -
                                   </span>
@@ -261,7 +260,9 @@ function Detail() {
                                   />
                                   <span
                                     className="inc"
-                                    onClick={() => setQuantity(quantity => quantity + 1)}
+                                    onClick={() =>
+                                      setQuantity((quantity) => quantity + 1)
+                                    }
                                   >
                                     +
                                   </span>
@@ -273,7 +274,7 @@ function Detail() {
                                 type="submit"
                                 className="pro-cart"
                                 id="AddToCart"
-                                onClick={(e) => addToCart(e)}
+                                onClick={(e) => addToCart(e, product)}
                               >
                                 <span>
                                   <span
@@ -290,7 +291,10 @@ function Detail() {
                                 className="action-wishlist wishlist-btn wishlist"
                                 href=""
                               >
-                                <span className="add-wishlist">
+                                <span
+                                  className="add-wishlist"
+                                  onClick={(e) => addToWishList(e, product)}
+                                >
                                   <i className="far fa-heart"></i>
                                 </span>
                                 <span className="loading-wishlist">
@@ -835,10 +839,7 @@ function Detail() {
               </Link>
             </div>
             <div className="list">
-              <Carousel showThumbs={false} wrap-around="true">
-                {" "}
-                <Item />
-              </Carousel>
+              <Item setShowModalCompare={setShowModalCompare}/>
             </div>
           </div>
         </div>
@@ -923,9 +924,7 @@ function Detail() {
               </Link>
             </div>
             <div className="list ">
-              <Carousel showThumbs={false} wrap-around="true">
-                <Item />
-              </Carousel>
+              <Item setShowModalCompare={setShowModalCompare}/>
             </div>
           </div>
         </div>

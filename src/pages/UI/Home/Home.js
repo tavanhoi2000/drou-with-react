@@ -1,11 +1,12 @@
 import "./home.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { Carousel } from "react-responsive-carousel";
 import { categories } from "../../../data";
+import { Carousel } from "react-responsive-carousel";
 import { Link } from "react-router-dom";
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getListProduct } from "./redux/homeAction";
+import ModalCompareProduct from "./modal/ModalCompareProduct";
 const Slider = lazy(() => import("../../../components/Slider"));
 const Item = lazy(() => import("../../../components/Item"));
 const BannerSale = lazy(() => import("../../../components/BannerSale"));
@@ -24,11 +25,13 @@ function Home() {
       snapAlign: "start",
     },
   };
-  const dispatch = useDispatch()
-  const products = useSelector(state => state.home.products)
+  const dispatch = useDispatch();
+  const [showModalCompare, setShowModalCompare] = useState(false);
+  const products = useSelector((state) => state.home.products);
+
   useEffect(() => {
-    dispatch(getListProduct())
-  },[dispatch])
+    dispatch(getListProduct());
+  }, [dispatch]);
   return (
     <>
       <Suspense>
@@ -76,11 +79,11 @@ function Home() {
             </Link>
           </div>
           <div className="list">
-            <Carousel showThumbs={false} wrap-around="true">
-              <Suspense>
-                <Item />
-              </Suspense>
-            </Carousel>
+            <Suspense>
+              <Item
+                setShowModalCompare={setShowModalCompare}
+              />
+            </Suspense>
           </div>
         </div>
         <Suspense>
@@ -90,7 +93,7 @@ function Home() {
         <div className="container">
           <Suspense>
             {" "}
-            <PopularProducts />
+            <PopularProducts setShowModalCompare={setShowModalCompare} />
           </Suspense>
           <div className="blog_event box_content">
             <div className="head">
@@ -147,6 +150,11 @@ function Home() {
           </div>
         </div>
       </div>
+
+      <ModalCompareProduct
+        showModalCompare={showModalCompare}
+        setShowModalCompare={setShowModalCompare}
+      />
     </>
   );
 }
